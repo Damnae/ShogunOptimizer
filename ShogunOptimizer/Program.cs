@@ -14,7 +14,10 @@ namespace ShogunOptimizer
                 Constellation = 0,
             };
 
+            character.Stats[(int)StatType.BurstDmgBonus] += .003 * 90; // Raiden's E
+
             character.Stats[(int)StatType.AtkFlat] += 1000; // Bennett
+            character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
 
             var weapons = new Weapon[]
             {
@@ -23,7 +26,7 @@ namespace ShogunOptimizer
                 //new EngulfingLightning(),
             };
 
-            var importer = new GoImporter();
+            var importer = new GoImporter(upgradeToLvl20: false);
             importer.Import("../../Debug/net5.0/godata.json");
 
             var enemy = new Enemy();
@@ -46,6 +49,9 @@ namespace ShogunOptimizer
             Console.WriteLine();
             Console.WriteLine($"Electro DMG Bonus: {character.GetStat(StatType.ElectroDmgBonus, build):P}");
             Console.WriteLine($"Avg Burst Crit Multiplier: {character.GetCritMultiplier(build, DamageType.Burst, HitType.Averaged):P}");
+            Console.WriteLine();
+            Console.WriteLine($"E Avg Damage: {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy):#.##}");
+            Console.WriteLine($"Q Energy Restored: {character.Calculate(Raiden.PropertyBurstEnergyRestored, build, HitType.Normal, enemy):#.##}");
 
             Console.WriteLine();
             Console.WriteLine($"~~~ {build.Weapon.GetType().Name} ~~~");

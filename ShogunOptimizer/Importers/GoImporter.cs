@@ -7,11 +7,18 @@ namespace ShogunOptimizer.Importers
 {
     public class GoImporter
     {
+        private readonly bool upgradeToLvl20;
+
         public readonly List<Artifact> Flowers = new();
         public readonly List<Artifact> Plumes = new();
         public readonly List<Artifact> Sands = new();
         public readonly List<Artifact> Goblets = new();
         public readonly List<Artifact> Circlets = new();
+
+        public GoImporter(bool upgradeToLvl20)
+        {
+            this.upgradeToLvl20 = upgradeToLvl20;
+        }
 
         public void Import(string path)
         {
@@ -22,9 +29,9 @@ namespace ShogunOptimizer.Importers
             {
                 var level = artifactData.Value<int>("level");
                 var setKey = artifactData.Value<string>("setKey");
-                if (level < 20 && setKey != "EmblemOfSeveredFate")
+               
+                if (level < 20 && !upgradeToLvl20)
                     continue;
-
                 level = 20;
 
                 var slotkey = artifactData.Value<string>("slotKey");
@@ -47,6 +54,11 @@ namespace ShogunOptimizer.Importers
                 artifact.Set = setKey switch
                 {
                     "EmblemOfSeveredFate" => new EmblemOfSeveredFate(),
+                    "ShimenawasReminiscence" => new ShimenawasReminiscence(),
+                    "GladiatorsFinale" => new GladiatorsFinale(),
+                    "NoblesseOblige" => new NoblesseOblige(),
+                    "Thundersoother" => new Thundersoother(),
+                    "ThunderingFury" => new ThunderingFury(),
                     _ => new ArtifactSet(),
                 };
 
