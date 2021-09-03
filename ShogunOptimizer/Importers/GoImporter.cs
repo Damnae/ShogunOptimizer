@@ -22,7 +22,7 @@ namespace ShogunOptimizer.Importers
             {
                 var level = artifactData.Value<int>("level");
                 var setKey = artifactData.Value<string>("setKey");
-                if (level < 20 || setKey == "EmblemOfSeveredFate")
+                if (level < 20 && setKey != "EmblemOfSeveredFate")
                     continue;
 
                 level = 20;
