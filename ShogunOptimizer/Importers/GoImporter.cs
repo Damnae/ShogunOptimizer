@@ -7,11 +7,11 @@ namespace ShogunOptimizer.Importers
 {
     public class GoImporter
     {
-        public readonly List<Flower> Flowers = new();
-        public readonly List<Plume> Plumes = new();
-        public readonly List<Sands> Sands = new();
-        public readonly List<Goblet> Goblets = new();
-        public readonly List<Circlet> Circlets = new();
+        public readonly List<Artifact> Flowers = new();
+        public readonly List<Artifact> Plumes = new();
+        public readonly List<Artifact> Sands = new();
+        public readonly List<Artifact> Goblets = new();
+        public readonly List<Artifact> Circlets = new();
 
         public void Import(string path)
         {
@@ -21,44 +21,25 @@ namespace ShogunOptimizer.Importers
             foreach ((_, var artifactData) in artifactDatabase)
             {
                 var level = artifactData.Value<int>("level");
-                if (level < 20)
+                var setKey = artifactData.Value<string>("setKey");
+                if (level < 20 || setKey == "EmblemOfSeveredFate")
                     continue;
 
+                level = 20;
+
                 var slotkey = artifactData.Value<string>("slotKey");
-                var setKey = artifactData.Value<string>("setKey");
                 var mainStatKey = artifactData.Value<string>("mainStatKey");
 
-                Artifact artifact;
+                var artifact = new Artifact();
 
                 switch (slotkey)
                 {
-                    case "flower":
-                        var flower = new Flower();
-                        Flowers.Add(flower);
-                        artifact = flower;
-                        break;
-                    case "plume":
-                        var plume = new Plume();
-                        Plumes.Add(plume);
-                        artifact = plume;
-                        break;
-                    case "sands":
-                        var sands = new Sands();
-                        Sands.Add(sands);
-                        artifact = sands;
-                        break;
-                    case "goblet":
-                        var goblet = new Goblet();
-                        Goblets.Add(goblet);
-                        artifact = goblet;
-                        break;
-                    case "circlet":
-                        var circlet = new Circlet();
-                        Circlets.Add(circlet);
-                        artifact = circlet;
-                        break;
-                    default:
-                        throw new NotSupportedException(slotkey);
+                    case "flower": Flowers.Add(artifact); break;
+                    case "plume": Plumes.Add(artifact); break;
+                    case "sands": Sands.Add(artifact); break;
+                    case "goblet": Goblets.Add(artifact); break;
+                    case "circlet": Circlets.Add(artifact); break;
+                    default: throw new NotSupportedException(slotkey);
                 }
 
                 // Sets

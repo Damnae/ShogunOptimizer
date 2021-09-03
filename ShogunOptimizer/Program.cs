@@ -20,7 +20,7 @@ namespace ShogunOptimizer
             {
                 new FavoniusLance(),
                 new TheCatch(),
-                new EngulfingLightning(),
+                //new EngulfingLightning(),
             };
 
             var importer = new GoImporter();

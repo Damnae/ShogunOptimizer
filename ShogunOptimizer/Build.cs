@@ -6,11 +6,11 @@ namespace ShogunOptimizer
     {
         public Weapon Weapon;
 
-        public Flower Flower;
-        public Plume Plume;
-        public Sands Sands;
-        public Goblet Goblet;
-        public Circlet Circlet;
+        public Artifact Flower;
+        public Artifact Plume;
+        public Artifact Sands;
+        public Artifact Goblet;
+        public Artifact Circlet;
 
         public IEnumerable<Artifact> Artifacts
         {
