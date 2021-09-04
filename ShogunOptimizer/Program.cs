@@ -69,6 +69,7 @@ namespace ShogunOptimizer
             Console.WriteLine($"Avg Burst Crit Multiplier: {character.GetCritMultiplier(build, DamageType.Burst, HitType.Averaged):P}");
             Console.WriteLine();
             Console.WriteLine($"E Initial Damage: {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy):#})");
+            Console.WriteLine($"E Tick Damage: {character.Calculate(Raiden.PropertySkillTick, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertySkillTick, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertySkillTick, build, HitType.Averaged, enemy):#})");
             Console.WriteLine($"Q Initial Damage: {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Averaged, enemy):#})");
             Console.WriteLine($"Q Avg Attack Damage: {evaluateQ3N4C1N2C(build):#}");
             Console.WriteLine($"Q Energy Restored: {character.Calculate(Raiden.PropertyBurstEnergyRestored, build, HitType.Normal, enemy):#.##}");
