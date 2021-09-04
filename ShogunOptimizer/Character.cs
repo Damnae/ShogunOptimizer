@@ -136,8 +136,6 @@ namespace ShogunOptimizer
                     if (setTypes[i] == null)
                     {
                         setTypes[i] = setType;
-                        setCount[i] = 1;
-
                         stat += artifact.Set.GetStat(statType, build, this, ++setCount[i]);
                         break;
                     }
