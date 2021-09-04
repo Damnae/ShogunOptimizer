@@ -38,7 +38,20 @@ namespace ShogunOptimizer
 
             Console.WriteLine($"Evaluating {weapons.Length * importer.Flowers.Count * importer.Plumes.Count * importer.Sands.Count * importer.Goblets.Count * importer.Circlets.Count} Builds...");
 
-            double evaluateBuild(Build b) => character.Calculate(Raiden.PropertyBurstInitial, b, HitType.Averaged, enemy);
+            double evaluateQ3N4C1N2C(Build b) =>
+                character.Calculate(Raiden.PropertyBurstAttack1, b, HitType.Averaged, enemy) * 5
+                + character.Calculate(Raiden.PropertyBurstAttack2, b, HitType.Averaged, enemy) * 5
+                + character.Calculate(Raiden.PropertyBurstAttack3, b, HitType.Averaged, enemy) * 4
+                + character.Calculate(Raiden.PropertyBurstAttack4A, b, HitType.Averaged, enemy) * 4
+                + character.Calculate(Raiden.PropertyBurstAttack4B, b, HitType.Averaged, enemy) * 4
+                + character.Calculate(Raiden.PropertyBurstChargedA, b, HitType.Averaged, enemy) * 5
+                + character.Calculate(Raiden.PropertyBurstChargedB, b, HitType.Averaged, enemy) * 5;
+            double evaluateBuild(Build b) =>
+                character.Calculate(Raiden.PropertySkillInitial, b, HitType.Averaged, enemy) * 2
+                + character.Calculate(Raiden.PropertySkillTick, b, HitType.Averaged, enemy) * 20
+                + character.Calculate(Raiden.PropertyBurstInitial, b, HitType.Averaged, enemy)
+                + evaluateQ3N4C1N2C(b);
+
             var build = new BuildOptimizer().GenerateBuilds(character, weapons, importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets, enemy, evaluateBuild);
 
             Console.Clear();
@@ -55,8 +68,9 @@ namespace ShogunOptimizer
             Console.WriteLine($"Electro DMG Bonus: {character.GetStat(StatType.ElectroDmgBonus, build):P}");
             Console.WriteLine($"Avg Burst Crit Multiplier: {character.GetCritMultiplier(build, DamageType.Burst, HitType.Averaged):P}");
             Console.WriteLine();
-            Console.WriteLine($"E Damage: {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy):#})");
-            Console.WriteLine($"Q Damage: {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Averaged, enemy):#})");
+            Console.WriteLine($"E Initial Damage: {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy):#})");
+            Console.WriteLine($"Q Initial Damage: {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Averaged, enemy):#})");
+            Console.WriteLine($"Q Avg Attack Damage: {evaluateQ3N4C1N2C(build):#}");
             Console.WriteLine($"Q Energy Restored: {character.Calculate(Raiden.PropertyBurstEnergyRestored, build, HitType.Normal, enemy):#.##}");
 
             Console.WriteLine();
