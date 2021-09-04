@@ -20,13 +20,16 @@ namespace ShogunOptimizer.Importers
             this.upgradeToLvl20 = upgradeToLvl20;
         }
 
-        public void Import(string path)
+        public void Import(string path, string equippedTo = null)
         {
             var data = TinyToken.Read(path);
             var artifactDatabase = data.Value<TinyObject>("artifactDatabase");
 
             foreach ((_, var artifactData) in artifactDatabase)
             {
+                if (equippedTo != null && artifactData.Value<string>("location") != equippedTo)
+                    continue;
+
                 var level = artifactData.Value<int>("level");
                 var setKey = artifactData.Value<string>("setKey");
                
@@ -38,16 +41,6 @@ namespace ShogunOptimizer.Importers
                 var mainStatKey = artifactData.Value<string>("mainStatKey");
 
                 var artifact = new Artifact();
-
-                switch (slotkey)
-                {
-                    case "flower": Flowers.Add(artifact); break;
-                    case "plume": Plumes.Add(artifact); break;
-                    case "sands": Sands.Add(artifact); break;
-                    case "goblet": Goblets.Add(artifact); break;
-                    case "circlet": Circlets.Add(artifact); break;
-                    default: throw new NotSupportedException(slotkey);
-                }
 
                 // Sets
 
@@ -67,7 +60,6 @@ namespace ShogunOptimizer.Importers
                 var artifactStats = new List<Tuple<StatType, double>>();
 
                 var levelFactor = level / 20.0;
-
                 var mainstat = StatKeyToStatType(mainStatKey);
                 switch (mainstat)
                 {
@@ -133,6 +125,16 @@ namespace ShogunOptimizer.Importers
                 }
 
                 artifact.Stats = artifactStats.ToArray();
+
+                switch (slotkey)
+                {
+                    case "flower": Flowers.Add(artifact); break;
+                    case "plume": Plumes.Add(artifact); break;
+                    case "sands": Sands.Add(artifact); break;
+                    case "goblet": Goblets.Add(artifact); break;
+                    case "circlet": Circlets.Add(artifact); break;
+                    default: throw new NotSupportedException(slotkey);
+                }
             }
         }
 
