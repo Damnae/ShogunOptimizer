@@ -27,20 +27,23 @@ namespace ShogunOptimizer
                 //new EngulfingLightning(),
             };
 
-            var importer = new GoImporter(upgradeToLvl20: false);
+            var enemy = new Enemy { Level = 80, };
+
+            var importer = new GoImporter(upgradeToLvl20: true);
             importer.Import("../../Debug/net5.0/godata.json");
 
-            var enemy = new Enemy();
+            importer.Sands.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.EnergyRecharge));
+            importer.Goblets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.ElectroDmgBonus));
+            importer.Circlets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.CritRate || p.Stats[0].Item1 == StatType.CritDamage));
 
             Console.WriteLine($"Evaluating {weapons.Length * importer.Flowers.Count * importer.Plumes.Count * importer.Sands.Count * importer.Goblets.Count * importer.Circlets.Count} Builds...");
 
             double evaluateBuild(Build b) => character.Calculate(Raiden.PropertyBurstInitial, b, HitType.Averaged, enemy);
-            var build = new BuildOptimizer().GenerateBuilds(character, weapons, importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets,
-                enemy, evaluateBuild);
+            var build = new BuildOptimizer().GenerateBuilds(character, weapons, importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets, enemy, evaluateBuild);
 
             Console.Clear();
 
-            Console.WriteLine($"~~~ Build Value: {evaluateBuild(build):#.##} (Crit: {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Critical, enemy):#.##}) ~~~");
+            Console.WriteLine($"~~~ Build Value: {evaluateBuild(build):#.##} ~~~");
             Console.WriteLine();
             Console.WriteLine($"Max HP: {character.GetMaxHp(build):#}");
             Console.WriteLine($"ATK: {character.GetAtk(build):#.##}");
@@ -52,7 +55,8 @@ namespace ShogunOptimizer
             Console.WriteLine($"Electro DMG Bonus: {character.GetStat(StatType.ElectroDmgBonus, build):P}");
             Console.WriteLine($"Avg Burst Crit Multiplier: {character.GetCritMultiplier(build, DamageType.Burst, HitType.Averaged):P}");
             Console.WriteLine();
-            Console.WriteLine($"E Avg Damage: {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy):#.##}");
+            Console.WriteLine($"E Damage: {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy):#})");
+            Console.WriteLine($"Q Damage: {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Normal, enemy):#} - {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Critical, enemy):#} (Avg {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Averaged, enemy):#})");
             Console.WriteLine($"Q Energy Restored: {character.Calculate(Raiden.PropertyBurstEnergyRestored, build, HitType.Normal, enemy):#.##}");
 
             Console.WriteLine();
