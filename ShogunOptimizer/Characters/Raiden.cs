@@ -24,12 +24,12 @@ namespace ShogunOptimizer.Characters
             switch (property)
             {
                 case PropertySkillInitial:
-                    return 2.1096 * GetDamage(build, DamageType.Skill, Element.Electro, hitType, enemy);
+                    return (1.172 * GetTalentPercentageScaling(SkillLevel)) * GetDamage(build, DamageType.Skill, Element.Electro, hitType, enemy);
                 case PropertyBurstInitial:
-                    return (7.2144 + 0.07 * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
-
+                    var burstScaling = GetTalentPercentageScaling(BurstLevel);
+                    return (4.008 * burstScaling + 0.0389 * burstScaling * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
                 case PropertyBurstEnergyRestored:
-                    return 2.5 * 5 * (1 + .006 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1));
+                    return 5 * Math.Min(2.5, 1.6 + 0.1 * BurstLevel) * (1 + .006 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1));
 
                 default:
                     return base.Calculate(property, build, hitType, enemy);

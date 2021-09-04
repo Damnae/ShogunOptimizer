@@ -6,6 +6,9 @@ namespace ShogunOptimizer
     public class Character
     {
         public double Level = 90;
+        public int AttackLevel = 10;
+        public int SkillLevel = 10;
+        public int BurstLevel = 10;
         public int Constellation = 0;
 
         public double BaseAtk;
@@ -138,6 +141,14 @@ namespace ShogunOptimizer
 
             return stat;
         }
+
+        private readonly double[] AttackScalings = new [] { 1.0, 1.08, 1.16, 1.275, 1.35, 1.45, 1.575, 1.7, 1.825, 1.975, 2.125 };
+        private readonly double[] PercentageScalings = new[] { 1.0, 1.075, 1.15, 1.25, 1.325, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.125 };
+        private readonly double[] FlatScalings = new[] { 1.0, 1.1, 1.2, 1.325, 1.45, 1.575, 1.725, 1.875, 202.5, 2.2, 2.375, 2.55, 2.75 };
+
+        public virtual double GetTalentAttackScaling(int level) => AttackScalings[level - 1];
+        public virtual double GetTalentPercentageScaling(int level) => PercentageScalings[level - 1];
+        public virtual double GetTalentFlatScaling(int level) => FlatScalings[level - 1];
 
         public virtual double Calculate(string property, Build build, HitType hitType, Enemy enemy)
         {
