@@ -32,16 +32,16 @@ namespace ShogunOptimizer
 
         public virtual double GetDamage(Build build, DamageType damageType, Element element, HitType hitType, Enemy enemy)
         {
-            var unmitigatedDamage = GetAtk(build) * GetMultiplier(build, damageType, element, hitType);
+            var rawDamage = GetAtk(build) * GetMultiplier(build, damageType, element, hitType);
 
             var resMultiplier = 1 - enemy.Resistances[(int)element];
-            var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - GetStat(StatType.DefShred, build)));
+            var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
 
-            return unmitigatedDamage * resMultiplier * defMultiplier;
+            return rawDamage * resMultiplier * defMultiplier;
         }
 
         public virtual double GetMultiplier(Build build, DamageType damageType, Element element, HitType hitType)
-            => GetDmgMultiplier(build, damageType, element) + GetCritMultiplier(build, damageType, hitType);
+            => GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
 
         public virtual double GetDmgMultiplier(Build build, DamageType damageType, Element element)
         {
@@ -142,7 +142,7 @@ namespace ShogunOptimizer
             return stat;
         }
 
-        private readonly double[] AttackScalings = new [] { 1.0, 1.08, 1.16, 1.275, 1.35, 1.45, 1.575, 1.7, 1.825, 1.975, 2.125 };
+        private readonly double[] AttackScalings = new[] { 1.0, 1.08, 1.16, 1.275, 1.35, 1.45, 1.575, 1.7, 1.825, 1.975, 2.125 };
         private readonly double[] PercentageScalings = new[] { 1.0, 1.075, 1.15, 1.25, 1.325, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.125 };
         private readonly double[] FlatScalings = new[] { 1.0, 1.1, 1.2, 1.325, 1.45, 1.575, 1.725, 1.875, 202.5, 2.2, 2.375, 2.55, 2.75 };
 
