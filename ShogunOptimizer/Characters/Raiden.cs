@@ -4,6 +4,8 @@ namespace ShogunOptimizer.Characters
 {
     public class Raiden : Character
     {
+        public int Resolve = 60;
+
         public Raiden()
         {
             BaseAtk = 337;
@@ -24,7 +26,7 @@ namespace ShogunOptimizer.Characters
                 case PropertySkillInitial:
                     return 2.1096 * GetDamage(build, DamageType.Skill, Element.Electro, hitType, enemy);
                 case PropertyBurstInitial:
-                    return (7.2144 + 0.07 * 60) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
+                    return (7.2144 + 0.07 * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
 
                 case PropertyBurstEnergyRestored:
                     return 2.5 * 5 * (1 + .006 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1));
