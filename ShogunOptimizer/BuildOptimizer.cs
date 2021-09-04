@@ -24,11 +24,16 @@ namespace ShogunOptimizer
 
             Console.WriteLine($" - Evaluating builds");
 
+#if DEBUG
+            foreach (var build in builds)
+                build.Value = evaluateBuild(build);
+#else
             Parallel.For(0, builds.Count, index =>
             {
                 var build = builds[index];
                 build.Value = evaluateBuild(build);
             });
+#endif
 
             Console.WriteLine($" - Ranking builds");
 
