@@ -11,26 +11,33 @@ namespace ShogunOptimizer
         {
             var character = new Raiden
             {
+                Level = 90,
+                AttackLevel = 10,
+                SkillLevel = 10,
+                BurstLevel = 10,
                 Constellation = 0,
+
+                Resolve = 60,
             };
 
             character.Stats[(int)StatType.BurstDmgBonus] += .003 * 90; // Raiden's E
 
-            character.Stats[(int)StatType.AtkFlat] += 1000; // Bennett
-            character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
+            //character.Stats[(int)StatType.AtkPercent] += .25; // Pyro resonance
+
+            //character.Stats[(int)StatType.AtkFlat] += 1000; // Bennett
+            //character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
 
             var weapons = new Weapon[]
             {
-                new FavoniusLance(),
-                new Deathmatch(5),
                 new TheCatch(5),
-                //new EngulfingLightning(),
+                new StaffOfHoma(1) { Under50PercentHp = true, },
+                new EngulfingLightning(1),
             };
 
             var enemy = new Enemy { Level = 80, };
 
             var importer = new GoImporter(upgradeToLvl20: true);
-            importer.Import("../../Debug/net5.0/godata.json");
+            importer.Import("../../Debug/net5.0/godata.json"); //, "raidenshogun");
 
             importer.Sands.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.EnergyRecharge));
             importer.Goblets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.ElectroDmgBonus));
