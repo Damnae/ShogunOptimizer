@@ -22,10 +22,7 @@ namespace ShogunOptimizer
             var weapons = new Weapon[]
             {
                 new FavoniusLance(),
-                new TheCatch()
-                {
-                    Refine = 5,
-                },
+                new TheCatch(5),
                 //new EngulfingLightning(),
             };
 

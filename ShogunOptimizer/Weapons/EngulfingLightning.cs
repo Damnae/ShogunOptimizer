@@ -4,8 +4,9 @@ namespace ShogunOptimizer.Weapons
 {
     public class EngulfingLightning : Weapon
     {
-        public EngulfingLightning()
+        public EngulfingLightning(int refine = 1)
         {
+            Refine = refine;
             BaseAtk = 608;
             Stats = new Tuple<StatType, double>[]
             {

@@ -4,8 +4,9 @@ namespace ShogunOptimizer.Weapons
 {
     public class TheCatch : Weapon
     {
-        public TheCatch()
+        public TheCatch(int refine = 1)
         {
+            Refine = refine;
             BaseAtk = 510;
             Stats = new Tuple<StatType, double>[]
             {
