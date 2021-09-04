@@ -28,6 +28,8 @@ namespace ShogunOptimizer.Characters
         public const string PropertyBurstChargedB = "burstChargedB";
         public const string PropertyBurstEnergyRestored = "burstEnergyRestored";
 
+        public const string PropertyBurst3N4C1N2C = "burst3N4C1N2C";
+        
         public override double Calculate(string property, Build build, HitType hitType, Enemy enemy)
         {
             var burstScaling = GetTalentPercentageScaling(BurstLevel);
@@ -47,20 +49,32 @@ namespace ShogunOptimizer.Characters
                 case PropertyBurstChargedA: return (.616 * burstScaling + .0073 * burstScaling * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
                 case PropertyBurstChargedB: return (.7436 * burstScaling + .0073 * burstScaling * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
 
+                case PropertyBurst3N4C1N2C:
+                {
+                    var damage = GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
+                    return (.4474 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5
+                        + (.4396 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5
+                        + (.5382 * burstScaling + .0073 * burstScaling * Resolve) * damage * 4
+                        + (.3089 * burstScaling + .0073 * burstScaling * Resolve) * damage * 4
+                        + (.3098 * burstScaling + .0073 * burstScaling * Resolve) * damage * 4
+                        + (.616 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5
+                        + (.7436 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5;
+                }
+
                 case PropertyBurstEnergyRestored: return 5 * Math.Min(2.5, 1.6 + 0.1 * BurstLevel) * (1 + .006 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1));
 
                 default: return base.Calculate(property, build, hitType, enemy);
             }
         }
 
-        public override double GetStat(StatType statType, Build build)
+        public override double CalculateStat(StatType statType, Build build)
         {
-            var stat = base.GetStat(statType, build);
+            var stat = base.CalculateStat(statType, build);
 
             switch (statType)
             {
                 case StatType.ElectroDmgBonus:
-                    stat += .4 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1);
+                    stat += .4 * Math.Max(0, GetStat(StatType.EnergyRecharge, build) - 1);
                     break;
                 case StatType.DefShred when Constellation >= 2:
                     stat += .6;

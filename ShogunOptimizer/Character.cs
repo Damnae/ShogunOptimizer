@@ -111,7 +111,10 @@ namespace ShogunOptimizer
             throw new InvalidOperationException($"Unknown hit type {hitType}");
         }
 
-        public virtual double GetStat(StatType statType, Build build)
+        public double GetStat(StatType statType, Build build)
+            => build.GetCachedStat(statType, this);
+
+        public virtual double CalculateStat(StatType statType, Build build)
         {
             var stat = Stats[(int)statType];
 

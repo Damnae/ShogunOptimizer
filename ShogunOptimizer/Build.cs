@@ -25,5 +25,15 @@ namespace ShogunOptimizer
                 yield return Circlet;
             }
         }
+
+        private readonly Dictionary<StatType, double> statCache = new();
+
+        public double GetCachedStat(StatType statType, Character character)
+        {
+            if (!statCache.TryGetValue(statType, out var value))
+                statCache[statType] = value = character.CalculateStat(statType, this);
+
+            return value;
+        }
     }
 }
