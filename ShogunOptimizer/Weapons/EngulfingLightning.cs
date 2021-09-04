@@ -10,14 +10,19 @@ namespace ShogunOptimizer.Weapons
             Stats = new Tuple<StatType, double>[]
             {
                 new(StatType.EnergyRecharge, .551 ),
-                new(StatType.EnergyRecharge, .3 ),
+                new(StatType.EnergyRecharge, .25 + .05 * Refine ),
             };
         }
 
         public override double GetStat(StatType statType, Build build, Character character)
         {
             if (statType == StatType.AtkPercent)
-                return Math.Min(.80, .28 * character.GetStat(StatType.EnergyRecharge, build));
+            {
+                var atkMultiplier = .21 + .007 * Refine;
+                var maximumBonus = .6 + .2 * Refine;
+
+                return Math.Min(maximumBonus, atkMultiplier * character.GetStat(StatType.EnergyRecharge, build));
+            }
 
             return 0;
         }

@@ -22,7 +22,10 @@ namespace ShogunOptimizer
             var weapons = new Weapon[]
             {
                 new FavoniusLance(),
-                new TheCatch(),
+                new TheCatch()
+                {
+                    Refine = 5,
+                },
                 //new EngulfingLightning(),
             };
 
@@ -54,7 +57,7 @@ namespace ShogunOptimizer
             Console.WriteLine($"Q Energy Restored: {character.Calculate(Raiden.PropertyBurstEnergyRestored, build, HitType.Normal, enemy):#.##}");
 
             Console.WriteLine();
-            Console.WriteLine($"~~~ {build.Weapon.GetType().Name} ~~~");
+            Console.WriteLine($"~~~ {build.Weapon.GetType().Name} R{build.Weapon.Refine} ~~~");
 
             foreach (var artifact in build.Artifacts)
             {
