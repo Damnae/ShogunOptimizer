@@ -4,14 +4,15 @@ namespace ShogunOptimizer.Weapons
 {
     public class TheCatch : Weapon
     {
-        public TheCatch()
+        public TheCatch(int refine = 1)
         {
+            Refine = refine;
             BaseAtk = 510;
             Stats = new Tuple<StatType, double>[]
             {
                 new(StatType.EnergyRecharge, .459 ),
-                new(StatType.BurstDmgBonus, .32 ),
-                new(StatType.BurstCritRateBonus, .12 ),
+                new(StatType.BurstDmgBonus, .12 + .04 * Refine),
+                new(StatType.BurstCritRateBonus, .045 + .015 * Refine ),
             };
         }
     }

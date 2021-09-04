@@ -5,6 +5,7 @@ namespace ShogunOptimizer
     public class Weapon
     {
         public double BaseAtk;
+        public int Refine = 1;
 
         public Tuple<StatType, double>[] Stats;
 
