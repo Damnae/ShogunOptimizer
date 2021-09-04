@@ -52,7 +52,7 @@ namespace ShogunOptimizer
                 + character.Calculate(Raiden.PropertyBurstInitial, b, HitType.Averaged, enemy)
                 + evaluateQ3N4C1N2C(b);
 
-            var build = new BuildOptimizer().GenerateBuilds(character, weapons, importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets, enemy, evaluateBuild);
+            var build = new BuildOptimizer().GenerateBuilds(character, weapons, importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets, evaluateBuild);
 
             Console.Clear();
 

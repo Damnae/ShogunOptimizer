@@ -1,59 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShogunOptimizer
 {
     public class BuildOptimizer
     {
-        public Build GenerateBuilds<TCharacter>(TCharacter character, 
+        public Build GenerateBuilds<TCharacter>(TCharacter character,
             IEnumerable<Weapon> weapons, IEnumerable<Artifact> flowers, IEnumerable<Artifact> plumes, IEnumerable<Artifact> sands, IEnumerable<Artifact> goblets, IEnumerable<Artifact> circlets,
-            Enemy enemy, Func<Build, double> evaluateBuild)
+            Func<Build, double> evaluateBuild)
         {
-            var build = new Build();
+            var builds = new List<Build>();
 
-            var bestBuild = (Build)null;
-            var bestValue = double.MinValue;
+            Console.WriteLine($" - Creating builds");
 
             foreach (var w in weapons)
-            {
-                build.Weapon = w;
                 foreach (var f in flowers)
-                {
-                    build.Flower = f;
                     foreach (var p in plumes)
-                    {
-                        build.Plume = p;
                         foreach (var s in sands)
-                        {
-                            build.Sands = s;
                             foreach (var g in goblets)
-                            {
-                                build.Goblet = g;
                                 foreach (var c in circlets)
-                                {
-                                    build.Circlet = c;
-
-                                    var newBuildValue = evaluateBuild(build);
-                                    if (newBuildValue > bestValue)
+                                    builds.Add(new Build
                                     {
-                                        bestValue = newBuildValue;
-                                        bestBuild = build;
+                                        Weapon = w,
+                                        Flower = f,
+                                        Plume = p,
+                                        Sands = s,
+                                        Goblet = g,
+                                        Circlet = c,
+                                    });
 
-                                        build = new Build
-                                        {
-                                            Weapon = bestBuild.Weapon,
-                                            Flower = bestBuild.Flower,
-                                            Plume = bestBuild.Plume,
-                                            Goblet = bestBuild.Goblet,
-                                            Sands = bestBuild.Sands,
-                                        };
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            Console.WriteLine($" - Evaluating builds");
+
+            Parallel.For(0, builds.Count, index =>
+            {
+                var build = builds[index];
+                build.Value = evaluateBuild(build);
+            });
+
+            Console.WriteLine($" - Ranking builds");
+
+            var bestBuild = (Build)null;
+            foreach (var build in builds)
+                if (bestBuild == null || bestBuild.Value < build.Value)
+                    bestBuild = build;
 
             return bestBuild;
         }

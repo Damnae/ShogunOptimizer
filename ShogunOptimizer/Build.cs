@@ -4,6 +4,8 @@ namespace ShogunOptimizer
 {
     public class Build
     {
+        public double Value;
+
         public Weapon Weapon;
 
         public Artifact Flower;
