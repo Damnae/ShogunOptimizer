@@ -25,13 +25,7 @@ namespace ShogunOptimizer
         public virtual double GetBaseAtk(Build build) => BaseAtk + build.Weapon.BaseAtk;
         public virtual double GetAtk(Build build) => GetBaseAtk(build) * (1 + GetStat(StatType.AtkPercent, build)) + GetStat(StatType.AtkFlat, build);
 
-        public virtual double GetMaxHealth(Build build)
-        {
-            var percent = GetStat(StatType.HpPercent, build);
-            var flat = GetStat(StatType.HpFlat, build);
-
-            return BaseHp * (1 + percent) + flat;
-        }
+        public virtual double GetMaxHp(Build build) => BaseHp * (1 + GetStat(StatType.HpPercent, build)) + GetStat(StatType.HpFlat, build);
 
         public virtual double GetDamage(Build build, DamageType damageType, Element element, HitType hitType, Enemy enemy)
         {
