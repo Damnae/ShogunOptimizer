@@ -41,6 +41,7 @@ namespace ShogunOptimizer
 
             Console.WriteLine($"~~~ Build Value: {evaluateBuild(build):#.##} (Crit: {character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Critical, enemy):#.##}) ~~~");
             Console.WriteLine();
+            Console.WriteLine($"Max HP: {character.GetMaxHealth(build)}");
             Console.WriteLine($"ATK: {character.GetAtk(build):#.##}");
             Console.WriteLine($"CRIT RATE: {character.GetStat(StatType.CritRate, build):P}");
             Console.WriteLine($"CRIT DMG: +{character.GetStat(StatType.CritDamage, build):P}");
