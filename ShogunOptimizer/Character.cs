@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ShogunOptimizer
 {
@@ -127,15 +126,26 @@ namespace ShogunOptimizer
 
             stat += build.Weapon.GetStat(statType, build, this);
 
-            var sets = new Dictionary<Type, int>();
+            var setTypes = new Type[5];
+            var setCount = new int[5];
             foreach (var artifact in build.Artifacts)
             {
                 var setType = artifact.Set.GetType();
-                if (sets.TryGetValue(setType, out var count))
-                    sets[setType] = count + 1;
-                else sets[setType] = 1;
 
-                stat += artifact.Set.GetStat(statType, build, this, sets[setType]);
+                for (var i = 0; i < setTypes.Length; i++)
+                    if (setTypes[i] == null)
+                    {
+                        setTypes[i] = setType;
+                        setCount[i] = 1;
+
+                        stat += artifact.Set.GetStat(statType, build, this, ++setCount[i]);
+                        break;
+                    }
+                    else if (setTypes[i] == setType)
+                    {
+                        stat += artifact.Set.GetStat(statType, build, this, ++setCount[i]);
+                        break;
+                    }
 
                 foreach ((var artifactStatType, var artifactStatValue) in artifact.Stats)
                     if (artifactStatType == statType)

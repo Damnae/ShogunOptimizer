@@ -52,13 +52,14 @@ namespace ShogunOptimizer.Characters
                 case PropertyBurst3N4C1N2C:
                 {
                     var damage = GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                    return (.4474 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5
-                        + (.4396 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5
-                        + (.5382 * burstScaling + .0073 * burstScaling * Resolve) * damage * 4
-                        + (.3089 * burstScaling + .0073 * burstScaling * Resolve) * damage * 4
-                        + (.3098 * burstScaling + .0073 * burstScaling * Resolve) * damage * 4
-                        + (.616 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5
-                        + (.7436 * burstScaling + .0073 * burstScaling * Resolve) * damage * 5;
+                    var resolveBonus = .0073 * burstScaling * Resolve;
+                    return (.4474 * burstScaling + resolveBonus) * damage * 5
+                        + (.4396 * burstScaling + resolveBonus) * damage * 5
+                        + (.5382 * burstScaling + resolveBonus) * damage * 4
+                        + (.3089 * burstScaling + resolveBonus) * damage * 4
+                        + (.3098 * burstScaling + resolveBonus) * damage * 4
+                        + (.616 * burstScaling + resolveBonus) * damage * 5
+                        + (.7436 * burstScaling + resolveBonus) * damage * 5;
                 }
 
                 case PropertyBurstEnergyRestored: return 5 * Math.Min(2.5, 1.6 + 0.1 * BurstLevel) * (1 + .006 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1));

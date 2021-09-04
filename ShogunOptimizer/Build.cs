@@ -1,39 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace ShogunOptimizer
 {
     public class Build
     {
+        public readonly Weapon Weapon;
+        public readonly Artifact[] Artifacts;
+
         public double Value;
 
-        public Weapon Weapon;
-
-        public Artifact Flower;
-        public Artifact Plume;
-        public Artifact Sands;
-        public Artifact Goblet;
-        public Artifact Circlet;
-
-        public IEnumerable<Artifact> Artifacts
+        public Build(Weapon weapon, Artifact flower, Artifact plume, Artifact sands, Artifact goblet, Artifact circlet)
         {
-            get
-            {
-                yield return Flower;
-                yield return Plume;
-                yield return Sands;
-                yield return Goblet;
-                yield return Circlet;
-            }
+            Weapon = weapon;
+            Artifacts = new[] { flower, plume, sands, goblet, circlet, };
         }
 
-        private readonly Dictionary<StatType, double> statCache = new();
+        #region Stat Cache
+
+        private static readonly int cacheLength = Enum.GetValues<StatType>().Length;
+        private readonly double[] cachedStats = new double[cacheLength];
+        private readonly bool[] hasCachedStats = new bool[cacheLength];
 
         public double GetCachedStat(StatType statType, Character character)
         {
-            if (!statCache.TryGetValue(statType, out var value))
-                statCache[statType] = value = character.CalculateStat(statType, this);
+            double value;
+            if (!hasCachedStats[(int)statType])
+            {
+                hasCachedStats[(int)statType] = true;
+                cachedStats[(int)statType] = value = character.CalculateStat(statType, this);
+            }
+            else value = cachedStats[(int)statType];
 
             return value;
         }
+
+        #endregion
     }
 }

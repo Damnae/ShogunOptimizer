@@ -20,15 +20,7 @@ namespace ShogunOptimizer
                         foreach (var s in sands)
                             foreach (var g in goblets)
                                 foreach (var c in circlets)
-                                    builds.Add(new Build
-                                    {
-                                        Weapon = w,
-                                        Flower = f,
-                                        Plume = p,
-                                        Sands = s,
-                                        Goblet = g,
-                                        Circlet = c,
-                                    });
+                                    builds.Add(new Build(w, f, p, s, g, c));
 
             Console.WriteLine($" - Evaluating builds");
 
