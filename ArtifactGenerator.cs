@@ -55,9 +55,9 @@ namespace ShogunOptimizer
             foreach (var mainStat in mainStats)
             {
                 var stats = new List<Tuple<StatType, double>>(5)
-                    {
-                        new(mainStat, GetMainStatLvl20(mainStat))
-                    };
+                {
+                    new(mainStat, GetMainStatLvl20(mainStat))
+                };
 
                 // Fill Substats
                 for (var i = 0; i < 4; i++)
@@ -90,32 +90,31 @@ namespace ShogunOptimizer
             }
         }
 
-        private static double GetMainStatLvl20(StatType mainStat) =>
-            mainStat switch
-            {
-                StatType.AtkFlat => 311,
-                StatType.HpFlat => 4780,
-                StatType.ElementalMastery => 187,
-                StatType.AtkPercent => .466,
-                StatType.DefPercent => .583,
-                StatType.HpPercent => .466,
-                StatType.CritRate => .311,
-                StatType.CritDamage => .622,
-                StatType.EnergyRecharge => .518,
-                StatType.HealBonus => .359,
-                StatType.PhysicalDmgBonus => .583,
+        private static double GetMainStatLvl20(StatType mainStat) => mainStat switch
+        {
+            StatType.AtkFlat => 311,
+            StatType.HpFlat => 4780,
+            StatType.ElementalMastery => 187,
+            StatType.AtkPercent => .466,
+            StatType.DefPercent => .583,
+            StatType.HpPercent => .466,
+            StatType.CritRate => .311,
+            StatType.CritDamage => .622,
+            StatType.EnergyRecharge => .518,
+            StatType.HealBonus => .359,
+            StatType.PhysicalDmgBonus => .583,
 
-                StatType.PyroDmgBonus
-                or StatType.HydroDmgBonus
-                or StatType.CryoDmgBonus
-                or StatType.ElectroDmgBonus
-                or StatType.AnemoDmgBonus
-                or StatType.GeoDmgBonus
-                or StatType.DendroDmgBonus
-                    => .466,
+            StatType.PyroDmgBonus
+            or StatType.HydroDmgBonus
+            or StatType.CryoDmgBonus
+            or StatType.ElectroDmgBonus
+            or StatType.AnemoDmgBonus
+            or StatType.GeoDmgBonus
+            or StatType.DendroDmgBonus
+                => .466,
 
-                _ => throw new NotSupportedException($"Unknown main stat type {mainStat}"),
-            };
+            _ => throw new NotSupportedException($"Unknown main stat type {mainStat}"),
+        };
 
         private static readonly double[] atkFlatRolls = { 14, 16, 18, 19, };
         private static readonly double[] hpFlatRolls = { 209, 239, 269, 299, };
@@ -128,21 +127,20 @@ namespace ShogunOptimizer
         private static readonly double[] critDamageRolls = { .054, .062, .07, .078, };
         private static readonly double[] energyRegenRolls = { .045, .052, .058, .065, };
 
-        private static double[] GetSubStatRolls(StatType stat) =>
-            stat switch
-            {
-                StatType.AtkFlat => atkFlatRolls,
-                StatType.HpFlat => hpFlatRolls,
-                StatType.DefFlat => defFlatRolls,
-                StatType.ElementalMastery => emRolls,
-                StatType.AtkPercent => atkPercentRolls,
-                StatType.DefPercent => defPercentRolls,
-                StatType.HpPercent => hpPercentRolls,
-                StatType.CritRate => critRateRolls,
-                StatType.CritDamage => critDamageRolls,
-                StatType.EnergyRecharge => energyRegenRolls,
+        private static double[] GetSubStatRolls(StatType stat) => stat switch
+        {
+            StatType.AtkFlat => atkFlatRolls,
+            StatType.HpFlat => hpFlatRolls,
+            StatType.DefFlat => defFlatRolls,
+            StatType.ElementalMastery => emRolls,
+            StatType.AtkPercent => atkPercentRolls,
+            StatType.DefPercent => defPercentRolls,
+            StatType.HpPercent => hpPercentRolls,
+            StatType.CritRate => critRateRolls,
+            StatType.CritDamage => critDamageRolls,
+            StatType.EnergyRecharge => energyRegenRolls,
 
-                _ => throw new NotSupportedException($"Unknown sub stat type {stat}"),
-            };
+            _ => throw new NotSupportedException($"Unknown sub stat type {stat}"),
+        };
     }
 }

@@ -11,15 +11,8 @@ namespace ShogunOptimizer
 
             buildTarget.Initialize(out var character, out var enemy, out var weapons);
 
-            Console.WriteLine($"Importing Artifacts...");
-
-            var artifactSource = buildTarget.ImportArtifacts();
-
-            Console.WriteLine($"Evaluating {weapons.Count * artifactSource.Flowers.Count * artifactSource.Plumes.Count * artifactSource.Sands.Count * artifactSource.Goblets.Count * artifactSource.Circlets.Count} Builds...");
-
             var optimizer = new BuildOptimizer();
-            var build = optimizer.GenerateBuilds(weapons,
-                artifactSource.Flowers, artifactSource.Plumes, artifactSource.Sands, artifactSource.Goblets, artifactSource.Circlets,
+            var build = optimizer.FindBestBuild(weapons, buildTarget,
                 b => buildTarget.Evaluate(b, character, enemy), b => buildTarget.FilterBuild(b, character, enemy));
 
             if (build.Value == 0)

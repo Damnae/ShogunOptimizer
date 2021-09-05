@@ -6,20 +6,23 @@ namespace ShogunOptimizer
 {
     public class BuildOptimizer
     {
-        public Build GenerateBuilds(
-            IEnumerable<Weapon> weapons, IEnumerable<Artifact> flowers, IEnumerable<Artifact> plumes, IEnumerable<Artifact> sands, IEnumerable<Artifact> goblets, IEnumerable<Artifact> circlets,
+        public Build FindBestBuild(
+            ICollection<Weapon> weapons, BuildTarget buildTarget,
             Func<Build, double> evaluateBuild, Func<Build, bool> filterBuild = null)
         {
+            Console.WriteLine($" - Importing artifacts");
+
+            var artifactSource = buildTarget.ImportArtifacts();
+
+            Console.WriteLine($" - Creating {weapons.Count * artifactSource.Flowers.Count * artifactSource.Plumes.Count * artifactSource.Sands.Count * artifactSource.Goblets.Count * artifactSource.Circlets.Count} builds");
+
             var builds = new List<Build>();
-
-            Console.WriteLine($" - Creating builds");
-
             foreach (var w in weapons)
-                foreach (var f in flowers)
-                    foreach (var p in plumes)
-                        foreach (var s in sands)
-                            foreach (var g in goblets)
-                                foreach (var c in circlets)
+                foreach (var f in artifactSource.Flowers)
+                    foreach (var p in artifactSource.Plumes)
+                        foreach (var s in artifactSource.Sands)
+                            foreach (var g in artifactSource.Goblets)
+                                foreach (var c in artifactSource.Circlets)
                                     builds.Add(new Build(w, f, p, s, g, c));
 
             Console.WriteLine($" - Evaluating builds");
