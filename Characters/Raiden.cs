@@ -56,7 +56,7 @@ namespace ShogunOptimizer.Characters
                     var resolveBonus = .0073 * burstScaling * Resolve;
                     return (.4474 * burstScaling + resolveBonus) * damage * 3
                         + (.4396 * burstScaling + resolveBonus) * damage * 3
-                        + (.5382 * burstScaling + resolveBonus) * damage * 3
+                        + (.5382 * burstScaling + resolveBonus) * damage * 2
                         + (.3089 * burstScaling + resolveBonus) * damage * 2
                         + (.3098 * burstScaling + resolveBonus) * damage * 2
                         + (.616 * burstScaling + resolveBonus) * damage * 3
