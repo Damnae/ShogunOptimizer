@@ -6,9 +6,10 @@ namespace ShogunOptimizer
     {
         public double BaseAtk;
         public readonly int Refine;
-
         public Tuple<StatType, double>[] Stats;
-        
+
+        public WeaponType Type;
+
         public Weapon(int refine)
         {
             Refine = refine;

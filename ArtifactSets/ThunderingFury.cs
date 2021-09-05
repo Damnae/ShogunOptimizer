@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShogunOptimizer.ArtifactSets
+﻿namespace ShogunOptimizer.ArtifactSets
 {
     public class ThunderingFury : ArtifactSet
     {

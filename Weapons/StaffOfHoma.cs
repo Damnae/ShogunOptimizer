@@ -14,6 +14,7 @@ namespace ShogunOptimizer.Weapons
                 new(StatType.CritDamage, .662),
                 new(StatType.HpPercent, 0.15 + .05 * Refine),
             };
+            Type = WeaponType.Spear;
         }
 
         public override double GetStat(StatType statType, Build build, Character character)

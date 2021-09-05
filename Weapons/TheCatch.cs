@@ -13,6 +13,7 @@ namespace ShogunOptimizer.Weapons
                 new(StatType.BurstDmgBonus, .12 + .04 * Refine),
                 new(StatType.BurstCritRateBonus, .045 + .015 * Refine),
             };
+            Type = WeaponType.Spear;
         }
     }
 }

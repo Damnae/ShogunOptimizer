@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShogunOptimizer.ArtifactSets
+﻿namespace ShogunOptimizer.ArtifactSets
 {
     public class NoblesseOblige : ArtifactSet
     {

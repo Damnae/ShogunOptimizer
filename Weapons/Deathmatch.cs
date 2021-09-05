@@ -12,6 +12,7 @@ namespace ShogunOptimizer.Weapons
                 new(StatType.EnergyRecharge, .368 ),
                 new(StatType.AtkPercent, .018 + .006 * Refine),
             };
+            Type = WeaponType.Spear;
         }
     }
 }

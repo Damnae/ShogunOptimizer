@@ -12,6 +12,7 @@ namespace ShogunOptimizer.Weapons
                 new(StatType.EnergyRecharge, .551 ),
                 new(StatType.EnergyRecharge, .25 + .05 * Refine),
             };
+            Type = WeaponType.Spear;
         }
 
         public override double GetStat(StatType statType, Build build, Character character)

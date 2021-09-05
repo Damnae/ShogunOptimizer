@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ShogunOptimizer.ArtifactSets
+﻿namespace ShogunOptimizer.ArtifactSets
 {
     public class GladiatorsFinale : ArtifactSet
     {
@@ -10,7 +8,8 @@ namespace ShogunOptimizer.ArtifactSets
             {
                 case 2 when statType == StatType.AtkPercent:
                     return .18;
-                case 4 when statType == StatType.AttackDmgBonus:
+                case 4 when statType == StatType.AttackDmgBonus && 
+                    (build.Weapon.Type == WeaponType.Sword || build.Weapon.Type == WeaponType.Claymore || build.Weapon.Type == WeaponType.Spear):
                     return .35;
             }
             return 0;
