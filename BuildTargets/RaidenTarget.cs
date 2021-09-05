@@ -46,6 +46,9 @@ namespace ShogunOptimizer.BuildTargets
             artifactSource.Circlets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.CritRate || p.Stats[0].Item1 == StatType.CritDamage));
         }
 
+        public override bool FilterBuild(Build build, Character character, Enemy enemy)
+            => true;
+
         public override double Evaluate(Build build, Character character, Enemy enemy) =>
                 character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy) * 2
                 + character.Calculate(Raiden.PropertySkillTick, build, HitType.Averaged, enemy) * 20

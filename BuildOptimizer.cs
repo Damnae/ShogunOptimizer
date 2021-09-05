@@ -8,7 +8,7 @@ namespace ShogunOptimizer
     {
         public Build GenerateBuilds(
             IEnumerable<Weapon> weapons, IEnumerable<Artifact> flowers, IEnumerable<Artifact> plumes, IEnumerable<Artifact> sands, IEnumerable<Artifact> goblets, IEnumerable<Artifact> circlets,
-            Func<Build, double> evaluateBuild)
+            Func<Build, double> evaluateBuild, Func<Build, bool> filterBuild = null)
         {
             var builds = new List<Build>();
 
@@ -31,7 +31,9 @@ namespace ShogunOptimizer
             Parallel.For(0, builds.Count, index =>
             {
                 var build = builds[index];
-                build.Value = evaluateBuild(build);
+
+                if (filterBuild == null || filterBuild(build))
+                    build.Value = evaluateBuild(build);
             });
 #endif
 

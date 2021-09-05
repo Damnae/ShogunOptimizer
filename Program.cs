@@ -1,5 +1,4 @@
 ﻿using ShogunOptimizer.BuildTargets;
-using ShogunOptimizer.ArtifactSources;
 using System;
 
 namespace ShogunOptimizer
@@ -14,22 +13,14 @@ namespace ShogunOptimizer
 
             Console.WriteLine($"Importing Artifacts...");
 
-            ArtifactSource artifactSource;
-            if (true)
-            {
-                var importer = new GoImporter(buildTarget.UpgradeArtifactsToLvl20);
-                importer.Import("../../Debug/net5.0/godata.json", buildTarget.EquippedTo, buildTarget.AllowUnequipped);
-
-                artifactSource = importer;
-            }
-            buildTarget.FilterArtifacts(artifactSource);
+            var artifactSource = buildTarget.ImportArtifacts();
 
             Console.WriteLine($"Evaluating {weapons.Count * artifactSource.Flowers.Count * artifactSource.Plumes.Count * artifactSource.Sands.Count * artifactSource.Goblets.Count * artifactSource.Circlets.Count} Builds...");
 
             var optimizer = new BuildOptimizer();
             var build = optimizer.GenerateBuilds(weapons,
                 artifactSource.Flowers, artifactSource.Plumes, artifactSource.Sands, artifactSource.Goblets, artifactSource.Circlets,
-                b => buildTarget.Evaluate(b, character, enemy));
+                b => buildTarget.Evaluate(b, character, enemy), b => buildTarget.FilterBuild(b, character, enemy));
 
             Console.Clear();
 
