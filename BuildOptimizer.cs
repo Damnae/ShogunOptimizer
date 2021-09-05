@@ -6,7 +6,7 @@ namespace ShogunOptimizer
 {
     public class BuildOptimizer
     {
-        public Build GenerateBuilds<TCharacter>(TCharacter character,
+        public Build GenerateBuilds(
             IEnumerable<Weapon> weapons, IEnumerable<Artifact> flowers, IEnumerable<Artifact> plumes, IEnumerable<Artifact> sands, IEnumerable<Artifact> goblets, IEnumerable<Artifact> circlets,
             Func<Build, double> evaluateBuild)
         {
