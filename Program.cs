@@ -34,10 +34,12 @@ namespace ShogunOptimizer
                 new EngulfingLightning(1),
             };
 
-            var enemy = new Enemy { Level = 80, };
+            var enemy = new Enemy { Level = 90, };
+
+            Console.WriteLine($"Importing Artifacts...");
 
             var importer = new GoImporter(upgradeToLvl20: true);
-            importer.Import("../../Debug/net5.0/godata.json"); //, "raidenshogun");
+            importer.Import("../../Debug/net5.0/godata.json"); //, equippedTo: "raidenshogun", allowUnequipped: true);
 
             importer.Sands.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.EnergyRecharge));
             importer.Goblets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.ElectroDmgBonus));

@@ -20,30 +20,29 @@ namespace ShogunOptimizer.Importers
             this.upgradeToLvl20 = upgradeToLvl20;
         }
 
-        public void Import(string path, string equippedTo = null)
+        public void Import(string path, string equippedTo = null, bool allowUnequipped = true)
         {
             var data = TinyToken.Read(path);
             var artifactDatabase = data.Value<TinyObject>("artifactDatabase");
 
             foreach ((_, var artifactData) in artifactDatabase)
             {
-                if (equippedTo != null && artifactData.Value<string>("location") != equippedTo)
+                var location = artifactData.Value<string>("location");
+                if (equippedTo != null && !(location == equippedTo || allowUnequipped && string.IsNullOrEmpty(location)))
                     continue;
 
                 var level = artifactData.Value<int>("level");
-                var setKey = artifactData.Value<string>("setKey");
                
                 if (level < 20 && !upgradeToLvl20)
                     continue;
                 level = 20;
 
-                var slotkey = artifactData.Value<string>("slotKey");
-                var mainStatKey = artifactData.Value<string>("mainStatKey");
 
                 var artifact = new Artifact();
 
                 // Sets
 
+                var setKey = artifactData.Value<string>("setKey");
                 artifact.Set = setKey switch
                 {
                     "EmblemOfSeveredFate" => new EmblemOfSeveredFate(),
@@ -59,8 +58,9 @@ namespace ShogunOptimizer.Importers
 
                 var artifactStats = new List<Tuple<StatType, double>>();
 
-                var levelFactor = level / 20.0;
+                var mainStatKey = artifactData.Value<string>("mainStatKey");
                 var mainstat = StatKeyToStatType(mainStatKey);
+                var levelFactor = level / 20.0;
                 switch (mainstat)
                 {
                     case StatType.AtkFlat: artifactStats.Add(new(mainstat, 47 + (311 - 47) * levelFactor)); break;
@@ -88,7 +88,6 @@ namespace ShogunOptimizer.Importers
                         artifactStats.Add(new(mainstat, .07 + (.466 - .07) * levelFactor)); 
                         break;
 
-                    case StatType.DefFlat:
                     default:
                         throw new NotSupportedException($"Unknown main stat type {mainstat}");
                 }
@@ -120,12 +119,13 @@ namespace ShogunOptimizer.Importers
                             artifactStats.Add(new(statType, substatValue * .01));
                             break;
                         default:
-                            throw new NotSupportedException($"Unknown stat type {statType}");
+                            throw new NotSupportedException($"Unknown substat type {statType}");
                     }
                 }
 
                 artifact.Stats = artifactStats.ToArray();
 
+                var slotkey = artifactData.Value<string>("slotKey");
                 switch (slotkey)
                 {
                     case "flower": Flowers.Add(artifact); break;
