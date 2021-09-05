@@ -105,7 +105,7 @@ namespace ShogunOptimizer
                 return 1 + critDamage;
 
             if (hitType == HitType.Averaged)
-                return 1 + Math.Min(1.0, critRate) * critDamage;
+                return 1 + Math.Max(0, Math.Min(1.0, critRate)) * critDamage;
 
             throw new InvalidOperationException($"Unknown hit type {hitType}");
         }

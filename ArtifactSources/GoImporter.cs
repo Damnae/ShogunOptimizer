@@ -3,17 +3,11 @@ using System;
 using System.Collections.Generic;
 using Tiny;
 
-namespace ShogunOptimizer.Importers
+namespace ShogunOptimizer.ArtifactSources
 {
-    public class GoImporter
+    public class GoImporter : ArtifactSource
     {
         private readonly bool upgradeToLvl20;
-
-        public readonly List<Artifact> Flowers = new();
-        public readonly List<Artifact> Plumes = new();
-        public readonly List<Artifact> Sands = new();
-        public readonly List<Artifact> Goblets = new();
-        public readonly List<Artifact> Circlets = new();
 
         public GoImporter(bool upgradeToLvl20)
         {
@@ -37,7 +31,6 @@ namespace ShogunOptimizer.Importers
                     continue;
                 level = 20;
 
-
                 var artifact = new Artifact();
 
                 // Sets
@@ -51,7 +44,11 @@ namespace ShogunOptimizer.Importers
                     "NoblesseOblige" => new NoblesseOblige(),
                     "Thundersoother" => new Thundersoother(),
                     "ThunderingFury" => new ThunderingFury(),
-                    _ => new ArtifactSet(),
+                    "HeartOfDepth" => new HeartOfDepth(),
+                    "MaidenBeloved" => new MaidenBeloved(),
+                    "WanderersTroupe" => new WanderersTroupe(),
+                    "TenacityOfTheMillelith" => new TenacityOfTheMillelith(),
+                    _ => new MissingSet(setKey),
                 };
 
                 // Stats
@@ -138,7 +135,7 @@ namespace ShogunOptimizer.Importers
             }
         }
 
-        public StatType StatKeyToStatType(string key) => key switch
+        public static StatType StatKeyToStatType(string key) => key switch
         {
             "atk" => StatType.AtkFlat,
             "atk_" => StatType.AtkPercent,

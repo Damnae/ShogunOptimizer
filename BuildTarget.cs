@@ -9,7 +9,7 @@ namespace ShogunOptimizer
         public abstract bool AllowUnequipped { get; }
 
         public abstract void Initialize(out Character character, out Enemy enemy, out ICollection<Weapon> weapons);
-        public abstract void FilterArtifacts(List<Artifact> flowers, List<Artifact> plumes, List<Artifact> sands, List<Artifact> goblets, List<Artifact> circlets);
+        public abstract void FilterArtifacts(ArtifactSource artifactSource);
         public abstract double Evaluate(Build build, Character character, Enemy enemy);
         public abstract void DisplayResults(Build build, Character character, Enemy enemy);
     }

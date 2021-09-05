@@ -15,6 +15,9 @@
         ElementalMastery,
         HealBonus,
 
+        ShieldStrength,
+        HealReceived,
+
         // Dmg Bonuses
         DmgBonus,
         AttackDmgBonus,

@@ -39,11 +39,11 @@ namespace ShogunOptimizer.BuildTargets
             };
         }
 
-        public override void FilterArtifacts(List<Artifact> flowers, List<Artifact> plumes, List<Artifact> sands, List<Artifact> goblets, List<Artifact> circlets)
+        public override void FilterArtifacts(ArtifactSource artifactSource)
         {
-            sands.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.EnergyRecharge));
-            goblets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.ElectroDmgBonus));
-            circlets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.CritRate || p.Stats[0].Item1 == StatType.CritDamage));
+            artifactSource.Sands.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.EnergyRecharge));
+            artifactSource.Goblets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.ElectroDmgBonus));
+            artifactSource.Circlets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.CritRate || p.Stats[0].Item1 == StatType.CritDamage));
         }
 
         public override double Evaluate(Build build, Character character, Enemy enemy) =>

@@ -1,5 +1,5 @@
 ﻿using ShogunOptimizer.BuildTargets;
-using ShogunOptimizer.Importers;
+using ShogunOptimizer.ArtifactSources;
 using System;
 
 namespace ShogunOptimizer
@@ -14,16 +14,21 @@ namespace ShogunOptimizer
 
             Console.WriteLine($"Importing Artifacts...");
 
-            var importer = new GoImporter(buildTarget.UpgradeArtifactsToLvl20);
-            importer.Import("../../Debug/net5.0/godata.json", buildTarget.EquippedTo, buildTarget.AllowUnequipped);
+            ArtifactSource artifactSource;
+            if (true)
+            {
+                var importer = new GoImporter(buildTarget.UpgradeArtifactsToLvl20);
+                importer.Import("../../Debug/net5.0/godata.json", buildTarget.EquippedTo, buildTarget.AllowUnequipped);
 
-            buildTarget.FilterArtifacts(importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets);
+                artifactSource = importer;
+            }
+            buildTarget.FilterArtifacts(artifactSource);
 
-            Console.WriteLine($"Evaluating {weapons.Count * importer.Flowers.Count * importer.Plumes.Count * importer.Sands.Count * importer.Goblets.Count * importer.Circlets.Count} Builds...");
+            Console.WriteLine($"Evaluating {weapons.Count * artifactSource.Flowers.Count * artifactSource.Plumes.Count * artifactSource.Sands.Count * artifactSource.Goblets.Count * artifactSource.Circlets.Count} Builds...");
 
             var optimizer = new BuildOptimizer();
             var build = optimizer.GenerateBuilds(weapons,
-                importer.Flowers, importer.Plumes, importer.Sands, importer.Goblets, importer.Circlets,
+                artifactSource.Flowers, artifactSource.Plumes, artifactSource.Sands, artifactSource.Goblets, artifactSource.Circlets,
                 b => buildTarget.Evaluate(b, character, enemy));
 
             Console.Clear();
@@ -48,11 +53,10 @@ namespace ShogunOptimizer
             foreach (var artifact in build.Artifacts)
             {
                 Console.WriteLine();
-                Console.WriteLine($"~~~ {artifact.GetType().Name} / {artifact.Set.GetType().Name} ~~~");
+                Console.WriteLine($"~~~ {artifact.Set} ~~~");
                 foreach ((var artifactStatType, var artifactStatValue) in artifact.Stats)
                     Console.WriteLine($"{artifactStatType}: {artifactStatValue}");
             };
-
         }
     }
 }
