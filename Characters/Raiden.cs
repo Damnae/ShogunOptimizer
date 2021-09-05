@@ -28,7 +28,7 @@ namespace ShogunOptimizer.Characters
         public const string PropertyBurstChargedB = "burstChargedB";
         public const string PropertyBurstEnergyRestored = "burstEnergyRestored";
 
-        public const string PropertyBurst3N4C1N2C = "burst3N4C1N2C";
+        public const string PropertyBurst2N4C1N2C = "burst2N4C1N2C";
         
         public override double Calculate(string property, Build build, HitType hitType, Enemy enemy)
         {
@@ -49,17 +49,17 @@ namespace ShogunOptimizer.Characters
                 case PropertyBurstChargedA: return (.616 * burstScaling + .0073 * burstScaling * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
                 case PropertyBurstChargedB: return (.7436 * burstScaling + .0073 * burstScaling * Resolve) * GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
 
-                case PropertyBurst3N4C1N2C:
+                case PropertyBurst2N4C1N2C:
                 {
                     var damage = GetDamage(build, DamageType.Burst, Element.Electro, hitType, enemy);
                     var resolveBonus = .0073 * burstScaling * Resolve;
-                    return (.4474 * burstScaling + resolveBonus) * damage * 5
-                        + (.4396 * burstScaling + resolveBonus) * damage * 5
-                        + (.5382 * burstScaling + resolveBonus) * damage * 4
-                        + (.3089 * burstScaling + resolveBonus) * damage * 4
-                        + (.3098 * burstScaling + resolveBonus) * damage * 4
-                        + (.616 * burstScaling + resolveBonus) * damage * 5
-                        + (.7436 * burstScaling + resolveBonus) * damage * 5;
+                    return (.4474 * burstScaling + resolveBonus) * damage * 3
+                        + (.4396 * burstScaling + resolveBonus) * damage * 3
+                        + (.5382 * burstScaling + resolveBonus) * damage * 3
+                        + (.3089 * burstScaling + resolveBonus) * damage * 2
+                        + (.3098 * burstScaling + resolveBonus) * damage * 2
+                        + (.616 * burstScaling + resolveBonus) * damage * 3
+                        + (.7436 * burstScaling + resolveBonus) * damage * 3;
                 }
 
                 case PropertyBurstEnergyRestored: return 5 * Math.Min(2.5, 1.6 + 0.1 * BurstLevel) * (1 + .006 * Math.Max(0, base.GetStat(StatType.EnergyRecharge, build) - 1));
