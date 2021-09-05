@@ -8,8 +8,9 @@ namespace ShogunOptimizer.Characters
 
         public Raiden()
         {
-            BaseAtk = 337;
             BaseHp = 12907;
+            BaseAtk = 337;
+            BaseDef = 789;
 
             AscensionStat = .32;
             AscensionStatType = StatType.EnergyRecharge;

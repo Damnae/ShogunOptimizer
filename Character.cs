@@ -10,8 +10,10 @@ namespace ShogunOptimizer
         public int BurstLevel = 10;
         public int Constellation = 0;
 
-        public double BaseAtk;
         public double BaseHp;
+        public double BaseAtk;
+        public double BaseDef;
+
         public double AscensionStat;
         public StatType AscensionStatType;
 
@@ -28,6 +30,7 @@ namespace ShogunOptimizer
         public virtual double GetAtk(Build build) => GetBaseAtk(build) * (1 + GetStat(StatType.AtkPercent, build)) + GetStat(StatType.AtkFlat, build);
 
         public virtual double GetMaxHp(Build build) => BaseHp * (1 + GetStat(StatType.HpPercent, build)) + GetStat(StatType.HpFlat, build);
+        public virtual double GetDef(Build build) => BaseDef * (1 + GetStat(StatType.DefPercent, build)) + GetStat(StatType.DefFlat, build);
 
         public virtual double GetMultiplier(Build build, DamageType damageType, Element element, HitType hitType, Enemy enemy)
         {
@@ -107,8 +110,7 @@ namespace ShogunOptimizer
             throw new InvalidOperationException($"Unknown hit type {hitType}");
         }
 
-        public double GetStat(StatType statType, Build build)
-            => build.GetCachedStat(statType, this);
+        public double GetStat(StatType statType, Build build) => build.GetCachedStat(statType, this);
 
         public virtual double CalculateStat(StatType statType, Build build)
         {

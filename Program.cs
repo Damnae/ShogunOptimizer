@@ -60,7 +60,8 @@ namespace ShogunOptimizer
             Console.WriteLine($"~~~ Build Value: {evaluateBuild(build):#.##} ~~~");
             Console.WriteLine();
             Console.WriteLine($"Max HP: {character.GetMaxHp(build):#}");
-            Console.WriteLine($"ATK: {character.GetAtk(build):#.##}");
+            Console.WriteLine($"ATK: {character.GetAtk(build):#}");
+            Console.WriteLine($"DEF: {character.GetDef(build):#}");
             Console.WriteLine($"CRIT RATE: {character.GetStat(StatType.CritRate, build):P}");
             Console.WriteLine($"CRIT DMG: +{character.GetStat(StatType.CritDamage, build):P}");
             Console.WriteLine($"EM: {character.GetStat(StatType.ElementalMastery, build)}");
