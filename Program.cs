@@ -22,10 +22,17 @@ namespace ShogunOptimizer
                 artifactSource.Flowers, artifactSource.Plumes, artifactSource.Sands, artifactSource.Goblets, artifactSource.Circlets,
                 b => buildTarget.Evaluate(b, character, enemy), b => buildTarget.FilterBuild(b, character, enemy));
 
+            if (build.Value == 0)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"~~~ No build found ~~~");
+                return;
+            }
+
             Console.Clear();
 
             Console.WriteLine();
-            Console.WriteLine($"~~~ Build Value: {buildTarget.Evaluate(build, character, enemy):#.##} ~~~");
+            Console.WriteLine($"~~~ Build Value: {build.Value:#.##} ~~~");
             Console.WriteLine();
             Console.WriteLine($"Max HP: {character.GetMaxHp(build):#}");
             Console.WriteLine($"ATK: {character.GetAtk(build):#}");

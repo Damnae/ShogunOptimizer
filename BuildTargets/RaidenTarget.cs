@@ -1,4 +1,5 @@
-﻿using ShogunOptimizer.Characters;
+﻿using ShogunOptimizer.ArtifactSets;
+using ShogunOptimizer.Characters;
 using ShogunOptimizer.Weapons;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,18 @@ namespace ShogunOptimizer.BuildTargets
         public override bool UpgradeArtifactsToLvl20 => true;
         public override string EquippedTo => "raidenshogun";
         public override bool AllowUnequipped => true;
+
+        public override Type[] UsefulSets => new Type[]
+{
+            typeof(EmblemOfSeveredFate),
+            typeof(GladiatorsFinale),
+            typeof(NoblesseOblige),
+            typeof(ShimenawasReminiscence),
+            typeof(ThunderingFury),
+            typeof(Thundersoother),
+        };
+        public override StatType[] UsefulMainStats { get; } = { StatType.AtkPercent, StatType.CritRate, StatType.CritDamage, StatType.ElectroDmgBonus, StatType.EnergyRecharge, };
+        public override StatType[] UsefulSubStats { get; } = { StatType.AtkPercent, StatType.AtkFlat, StatType.CritRate, StatType.CritDamage, StatType.EnergyRecharge, StatType.ElementalMastery, };
 
         public override void Initialize(out Character character, out Enemy enemy, out ICollection<Weapon> weapons)
         {
@@ -37,13 +50,6 @@ namespace ShogunOptimizer.BuildTargets
                 //new StaffOfHoma(1) { Under50PercentHp = true, },
                 //new EngulfingLightning(1),
             };
-        }
-
-        public override void FilterArtifacts(ArtifactSource artifactSource)
-        {
-            artifactSource.Sands.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.EnergyRecharge));
-            artifactSource.Goblets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.ElectroDmgBonus));
-            artifactSource.Circlets.RemoveAll(p => !(p.Stats[0].Item1 == StatType.AtkPercent || p.Stats[0].Item1 == StatType.CritRate || p.Stats[0].Item1 == StatType.CritDamage));
         }
 
         public override bool FilterBuild(Build build, Character character, Enemy enemy)
