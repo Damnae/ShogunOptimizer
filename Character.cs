@@ -29,18 +29,15 @@ namespace ShogunOptimizer
 
         public virtual double GetMaxHp(Build build) => BaseHp * (1 + GetStat(StatType.HpPercent, build)) + GetStat(StatType.HpFlat, build);
 
-        public virtual double GetDamage(Build build, DamageType damageType, Element element, HitType hitType, Enemy enemy)
+        public virtual double GetMultiplier(Build build, DamageType damageType, Element element, HitType hitType, Enemy enemy)
         {
-            var rawDamage = GetAtk(build) * GetMultiplier(build, damageType, element, hitType);
+            var rawMultiplier = GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
 
             var resMultiplier = 1 - enemy.Resistances[(int)element];
             var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
 
-            return rawDamage * resMultiplier * defMultiplier;
+            return rawMultiplier * resMultiplier * defMultiplier;
         }
-
-        public virtual double GetMultiplier(Build build, DamageType damageType, Element element, HitType hitType)
-            => GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
 
         public virtual double GetDmgMultiplier(Build build, DamageType damageType, Element element)
         {
