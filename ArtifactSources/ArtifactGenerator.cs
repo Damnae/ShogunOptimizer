@@ -33,11 +33,11 @@ namespace ShogunOptimizer.ArtifactSources
         public void Generate()
         {
 #if DEBUG
-            generate(Flowers, flowerMainStats, amount);
-            generate(Plumes, plumeMainStats, amount);
-            generate(Sands, SandsMainStats, amount);
-            generate(Goblets, GobletMainStats, amount);
-            generate(Circlets, CircletMainStats, amount);
+            generate(Flowers, flowerMainStats);
+            generate(Plumes, plumeMainStats);
+            generate(Sands, SandsMainStats);
+            generate(Goblets, GobletMainStats);
+            generate(Circlets, CircletMainStats);
 #else
             Parallel.Invoke(
                 () => generate(Flowers, flowerMainStats),
