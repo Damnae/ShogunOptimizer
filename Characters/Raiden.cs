@@ -63,7 +63,10 @@ namespace ShogunOptimizer.Characters
                         + (.7436 * burstScaling + resolveBonus) * damage * 3;
                 }
 
-                case PropertyBurstEnergyRestored: return 5 * Math.Min(2.5, 1.6 + 0.1 * BurstLevel) * (1 + .006 * Math.Max(0, GetStat(StatType.EnergyRecharge, build) - 1));
+                case PropertyBurstEnergyRestored:
+                    var baseValue = Math.Min(2.5, 1.6 + 0.1 * BurstLevel);
+                    var talentMultiplier = 1 + .6 * Math.Max(0, GetStat(StatType.EnergyRecharge, build) - 1);
+                    return 5 * baseValue * talentMultiplier;
 
                 default: return base.Calculate(property, build, hitType, enemy);
             }
