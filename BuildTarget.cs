@@ -10,6 +10,7 @@ namespace ShogunOptimizer
         public abstract bool UpgradeArtifactsToLvl20 { get; }
         public abstract string EquippedTo { get; }
         public abstract bool AllowUnequipped { get; }
+        public abstract bool UseGeneratedArtifacts { get; }
 
         public abstract Type[] UsefulSets { get; }
         public abstract StatType[] UsefulMainStats { get; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShogunOptimizer
+namespace ShogunOptimizer.ArtifactSources
 {
     public class ArtifactGenerator : ArtifactSource
     {
@@ -67,7 +67,7 @@ namespace ShogunOptimizer
                         break;
 
                     var substat = availableSubstat[random.Next(availableSubstat.Length)];
-                    stats.Add(new(substat, GetSubStatRolls(substat).PickOne(random)));
+                    stats.Add(new(substat, GetSubStatRolls(substat).Last()));
                 }
 
                 // Increase Substats
@@ -76,7 +76,7 @@ namespace ShogunOptimizer
                     var slot = random.Next(1, stats.Count);
 
                     var substat = stats[slot];
-                    stats[slot] = new(substat.Item1, substat.Item2 + GetSubStatRolls(substat.Item1).PickOne(random));
+                    stats[slot] = new(substat.Item1, substat.Item2 + GetSubStatRolls(substat.Item1).Last());
                 }
 
                 // Create for every set
