@@ -14,7 +14,7 @@ namespace ShogunOptimizer
             var optimizer = new BuildOptimizer();
 
             var build = buildTarget.UseGeneratedArtifacts ?
-                optimizer.FindIdealArtifacts(weapons, buildTarget, 64,
+                optimizer.FindIdealArtifacts(weapons, buildTarget, 200,
                     b => buildTarget.Evaluate(b, character, enemy),
                     b => buildTarget.FilterBuild(b, character, enemy))
                 : optimizer.FindBestBuild(weapons, buildTarget.ImportArtifacts(),

@@ -54,30 +54,7 @@ namespace ShogunOptimizer.ArtifactSources
             var random = new Random();
             foreach (var mainStat in mainStats)
             {
-                var stats = new List<Tuple<StatType, double>>(5)
-                {
-                    new(mainStat, GetMainStatLvl20(mainStat))
-                };
-
-                // Fill Substats
-                for (var i = 0; i < 4; i++)
-                {
-                    var availableSubstat = SubStats.Except(stats.Select(s => s.Item1)).ToArray();
-                    if (availableSubstat.Length == 0)
-                        break;
-
-                    var substat = availableSubstat[random.Next(availableSubstat.Length)];
-                    stats.Add(new(substat, GetSubStatRolls(substat).Last()));
-                }
-
-                // Increase Substats
-                for (var i = 0; i < 5; i++)
-                {
-                    var slot = random.Next(1, stats.Count);
-
-                    var substat = stats[slot];
-                    stats[slot] = new(substat.Item1, substat.Item2 + GetSubStatRolls(substat.Item1).Last());
-                }
+                List<Tuple<StatType, double>> stats = GenerateStats(mainStat, SubStats, random);
 
                 // Create for every set
                 var statsArray = stats.ToArray();
@@ -90,7 +67,37 @@ namespace ShogunOptimizer.ArtifactSources
             }
         }
 
-        private static double GetMainStatLvl20(StatType mainStat) => mainStat switch
+        public static List<Tuple<StatType, double>> GenerateStats(StatType mainStat, StatType[] subStats, Random random)
+        {
+            var stats = new List<Tuple<StatType, double>>(5)
+            {
+                new(mainStat, GetMainStatLvl20(mainStat))
+            };
+
+            // Fill Substats
+            for (var i = 0; i < 4; i++)
+            {
+                var availableSubstat = subStats.Except(stats.Select(s => s.Item1)).ToArray();
+                if (availableSubstat.Length == 0)
+                    break;
+
+                var substat = availableSubstat[random.Next(availableSubstat.Length)];
+                stats.Add(new(substat, GetSubStatRolls(substat).Last()));
+            }
+
+            // Increase Substats
+            for (var i = 0; i < 5; i++)
+            {
+                var slot = random.Next(1, stats.Count);
+
+                var substat = stats[slot];
+                stats[slot] = new(substat.Item1, substat.Item2 + GetSubStatRolls(substat.Item1).Last());
+            }
+
+            return stats;
+        }
+
+        public static double GetMainStatLvl20(StatType mainStat) => mainStat switch
         {
             StatType.AtkFlat => 311,
             StatType.HpFlat => 4780,
@@ -127,7 +134,7 @@ namespace ShogunOptimizer.ArtifactSources
         private static readonly double[] critDamageRolls = { .054, .062, .07, .078, };
         private static readonly double[] energyRegenRolls = { .045, .052, .058, .065, };
 
-        private static double[] GetSubStatRolls(StatType stat) => stat switch
+        public static double[] GetSubStatRolls(StatType stat) => stat switch
         {
             StatType.AtkFlat => atkFlatRolls,
             StatType.HpFlat => hpFlatRolls,

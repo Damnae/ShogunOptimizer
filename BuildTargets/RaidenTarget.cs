@@ -16,14 +16,16 @@ namespace ShogunOptimizer.BuildTargets
         public override Type[] UsefulSets => new Type[]
 {
             typeof(EmblemOfSeveredFate),
+            /*
             typeof(GladiatorsFinale),
             typeof(NoblesseOblige),
             typeof(ShimenawasReminiscence),
             typeof(ThunderingFury),
             typeof(Thundersoother),
+            */
         };
         public override StatType[] UsefulMainStats { get; } = { StatType.AtkPercent, StatType.CritRate, StatType.CritDamage, StatType.ElectroDmgBonus, StatType.EnergyRecharge, };
-        public override StatType[] UsefulSubStats { get; } = { StatType.AtkPercent, StatType.AtkFlat, StatType.CritRate, StatType.CritDamage, StatType.EnergyRecharge, StatType.ElementalMastery, };
+        public override StatType[] UsefulSubStats { get; } = { StatType.AtkPercent, StatType.AtkFlat, StatType.CritRate, StatType.CritDamage, StatType.EnergyRecharge, /* StatType.ElementalMastery, */ };
 
         public override void Initialize(out Character character, out Enemy enemy, out ICollection<Weapon> weapons)
         {
@@ -39,11 +41,18 @@ namespace ShogunOptimizer.BuildTargets
             };
 
             character.Stats[(int)StatType.BurstDmgBonus] += .003 * 90; // Raiden's E
+
             //character.Stats[(int)StatType.AtkPercent] += .25; // Pyro resonance
-            //character.Stats[(int)StatType.AtkFlat] += 815; // Bennett
+
+            //character.Stats[(int)StatType.AtkFlat] += 1046; // Bennett
             //character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
 
+            //character.Stats[(int)StatType.AtkPercent] += .48; // Thrilling
+            //character.Stats[(int)StatType.ElectroDmgBonus] += .2; // Sucrose
+
             enemy = new Enemy { Level = 90, };
+
+            //enemy.Resistances[(int)Element.Electro] = -.015; // VV
 
             weapons = new List<Weapon>
             {
@@ -57,10 +66,10 @@ namespace ShogunOptimizer.BuildTargets
             => true;
 
         public override double Evaluate(Build build, Character character, Enemy enemy) =>
-                character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy) * 2
-                + character.Calculate(Raiden.PropertySkillTick, build, HitType.Averaged, enemy) * 20
-                + character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Averaged, enemy)
-                + character.Calculate(Raiden.PropertyBurst2N4C1N2C, build, HitType.Averaged, enemy);
+            character.Calculate(Raiden.PropertySkillInitial, build, HitType.Averaged, enemy) * 2
+            + character.Calculate(Raiden.PropertySkillTick, build, HitType.Averaged, enemy) * 20
+            + character.Calculate(Raiden.PropertyBurstInitial, build, HitType.Averaged, enemy)
+            + character.Calculate(Raiden.PropertyBurst2N4C1N2C, build, HitType.Averaged, enemy);
 
         public override void DisplayResults(Build build, Character character, Enemy enemy)
         {

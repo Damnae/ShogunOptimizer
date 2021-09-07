@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShogunOptimizer.ArtifactSources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,19 +52,22 @@ namespace ShogunOptimizer
             Func<Build, double> evaluateBuild, Func<Build, bool> filterBuild = null)
         {
             var random = new Random();
+            var bestValue = 0.0;
             var bestBuilds = Enumerable.Empty<Build>();
 
             for (var i = 0; i < generations; i++)
             {
                 var artifactSource = buildTarget.GenerateArtifacts();
 
+                var add = true;
                 foreach (var b in bestBuilds)
                 {
-                    addUnique(b.Artifacts[0], artifactSource.Flowers, buildTarget, random);
-                    addUnique(b.Artifacts[1], artifactSource.Plumes, buildTarget, random);
-                    addUnique(b.Artifacts[2], artifactSource.Sands, buildTarget, random);
-                    addUnique(b.Artifacts[3], artifactSource.Goblets, buildTarget, random);
-                    addUnique(b.Artifacts[4], artifactSource.Circlets, buildTarget, random);
+                    addAndMutate(b.Artifacts[0], artifactSource.Flowers, buildTarget, random, add);
+                    addAndMutate(b.Artifacts[1], artifactSource.Plumes, buildTarget, random, add);
+                    addAndMutate(b.Artifacts[2], artifactSource.Sands, buildTarget, random, add);
+                    addAndMutate(b.Artifacts[3], artifactSource.Goblets, buildTarget, random, add);
+                    addAndMutate(b.Artifacts[4], artifactSource.Circlets, buildTarget, random, add);
+                    add = false;
                 }
 
                 Console.WriteLine($" - Creating {weapons.Count * artifactSource.Flowers.Count * artifactSource.Plumes.Count * artifactSource.Sands.Count * artifactSource.Goblets.Count * artifactSource.Circlets.Count} builds");
@@ -93,13 +97,64 @@ namespace ShogunOptimizer
 #endif
 
                 bestBuilds = builds.OrderByDescending(b => b.Value).Take(5);
-                Console.WriteLine($"      ({bestBuilds.First().Value:#.#})");
+
+                var topValue = bestBuilds.First().Value;
+                if (topValue > bestValue)
+                {
+                    Console.WriteLine($"      ({topValue:#.#})");
+                    bestValue = topValue;
+                }
             }
 
             return bestBuilds.First();
         }
 
-        private void addUnique(Artifact artifact, List<Artifact> artifacts, BuildTarget buildTarget, Random random)
+        private static void addAndMutate(Artifact artifact, List<Artifact> artifacts, BuildTarget buildTarget, Random random, bool add)
+        {
+            if (add)
+                addUnique(artifact, artifacts);
+
+            switch (random.Next(3))
+            {
+                case 0:
+                    // Change set
+                    {
+                        var currentSet = artifact.Set.GetType();
+                        var setType = buildTarget.UsefulSets.Except(Enumerable.Repeat(currentSet, 1)).PickOne(random, currentSet);
+                        var set = (ArtifactSet)Activator.CreateInstance(setType);
+
+                        addUnique(new Artifact
+                        {
+                            Set = set,
+                            Stats = artifact.Stats,
+                        }, artifacts);
+                    }
+                    break;
+
+                case 1:
+                case 2:
+                    // Change 1 substat and reroll substats
+                    {
+                        var mainstat = artifact.Stats[0].Item1;
+                        var substats = artifact.Stats.Skip(1).Select(s => s.Item1).ToArray();
+
+                        if (random.NextDouble() > .5f)
+                        {
+                            var slot = random.Next(substats.Length);
+                            substats[slot] = buildTarget.UsefulSubStats.Except(artifact.Stats.Select(s => s.Item1)).PickOne(random, substats[slot]);
+                        }
+
+                        addUnique(new Artifact
+                        {
+                            Set = artifact.Set,
+                            Stats = ArtifactGenerator.GenerateStats(artifact.Stats[0].Item1, substats, random).ToArray(),
+                        }, artifacts);
+                    }
+                    break;
+            }
+        }
+
+        private static void addUnique(Artifact artifact, List<Artifact> artifacts)
         {
             if (!artifacts.Contains(artifact))
                 artifacts.Add(artifact);
