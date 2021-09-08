@@ -17,9 +17,9 @@ namespace ShogunOptimizer.ArtifactSources
         public void Import(string path, string equippedTo = null, bool allowUnequipped = true)
         {
             var data = TinyToken.Read(path);
-            var artifactDatabase = data.Value<TinyObject>("artifactDatabase");
+            var artifactDatabase = data.Value<TinyArray>("artifacts");
 
-            foreach ((_, var artifactData) in artifactDatabase)
+            foreach (var artifactData in artifactDatabase)
             {
                 var location = artifactData.Value<string>("location");
                 if (equippedTo != null && !(location == equippedTo || allowUnequipped && string.IsNullOrEmpty(location)))
