@@ -35,6 +35,15 @@
         GeoDmgBonus,
         DendroDmgBonus,
 
+        // Reaction Bonuses
+        OverloadedDmgBonus,
+        BurningDmgBonus,
+        VaporizeDmgBonus,
+        MeltDmgBonus,
+        ElectroChargedDmgBonus,
+        SuperconductDmgBonus,
+        SwirlDmgBonus,
+
         // Crit Bonuses
         AttackCritRateBonus,
         AttackCritDamageBonus,

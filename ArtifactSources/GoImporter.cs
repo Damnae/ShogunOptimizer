@@ -48,6 +48,7 @@ namespace ShogunOptimizer.ArtifactSources
                     "MaidenBeloved" => new MaidenBeloved(),
                     "WanderersTroupe" => new WanderersTroupe(),
                     "TenacityOfTheMillelith" => new TenacityOfTheMillelith(),
+                    "CrimsonWitchOfFlames" => new CrimsonWitchOfFlames(),
                     _ => new MissingSet(setKey),
                 };
 
