@@ -1,6 +1,7 @@
 ﻿using ShogunOptimizer.ArtifactSources;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ShogunOptimizer
@@ -17,6 +18,7 @@ namespace ShogunOptimizer
         public abstract StatType[] UsefulSubStats { get; }
 
         public abstract void Initialize(out Character character, out Enemy enemy, out ICollection<Weapon> weapons);
+        public abstract ReadOnlyDictionary<Type, object> GetConfigs();
 
         public void FilterArtifacts(ArtifactSource artifactSource)
         {

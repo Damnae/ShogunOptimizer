@@ -3,6 +3,7 @@ using ShogunOptimizer.Characters;
 using ShogunOptimizer.Weapons;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ShogunOptimizer.BuildTargets
 {
@@ -53,6 +54,10 @@ namespace ShogunOptimizer.BuildTargets
                 new EverlastingMoonglow(1),
             };
         }
+
+        public override ReadOnlyDictionary<Type, object> GetConfigs() => new Dictionary<Type, object>
+        {
+        }.AsReadOnly();
 
         public override bool FilterBuild(Build build, Character character, Enemy enemy)
             => true;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 
 namespace ShogunOptimizer
 {
@@ -6,13 +7,25 @@ namespace ShogunOptimizer
     {
         public readonly Weapon Weapon;
         public readonly Artifact[] Artifacts;
+        private readonly ReadOnlyDictionary<Type, object> configs;
 
         public double Value;
 
-        public Build(Weapon weapon, Artifact flower, Artifact plume, Artifact sands, Artifact goblet, Artifact circlet)
+        public Build(Weapon weapon, Artifact flower, Artifact plume, Artifact sands, Artifact goblet, Artifact circlet, ReadOnlyDictionary<Type, object> configs)
         {
             Weapon = weapon;
             Artifacts = new[] { flower, plume, sands, goblet, circlet, };
+            this.configs = configs;
+        }
+
+        public T GetConfig<T>()
+        {
+            var type = typeof(T);
+            if (!configs.TryGetValue(type, out var config))
+                throw new InvalidOperationException($"Missing config for {type.FullName}");
+                //config = Activator.CreateInstance(typeof(T)); this is probably too slow
+
+            return (T)config;
         }
 
         #region Stat Cache

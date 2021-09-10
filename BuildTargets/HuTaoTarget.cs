@@ -3,6 +3,7 @@ using ShogunOptimizer.Characters;
 using ShogunOptimizer.Weapons;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ShogunOptimizer.BuildTargets
 {
@@ -21,20 +22,20 @@ namespace ShogunOptimizer.BuildTargets
         public override StatType[] UsefulMainStats { get; } = { StatType.HpPercent, StatType.AtkPercent, StatType.PyroDmgBonus, StatType.CritRate, StatType.CritDamage, };
         public override StatType[] UsefulSubStats { get; } = { StatType.CritDamage, StatType.CritRate, StatType.ElementalMastery, StatType.HpPercent, StatType.AtkPercent, };
 
-        public bool Under50PercentHp = true;
-
         public override void Initialize(out Character character, out Enemy enemy, out ICollection<Weapon> weapons)
         {
+            var under50Percent = true;
 
             character = new HuTao
             {
                 Level = 90,
-                AttackLevel = 9,
-                SkillLevel = 9,
-                BurstLevel = 9,
+                AttackLevel = 10,
+                SkillLevel = 10,
+                BurstLevel = 10,
                 Constellation = 0,
+
                 ElementalSkillActive = true,
-                Under50PercentHp = Under50PercentHp,
+                Under50PercentHp = under50Percent,
             };
 
             //character.Stats[(int)StatType.BurstDmgBonus] += .003 * 70; // Raiden's E
@@ -43,17 +44,22 @@ namespace ShogunOptimizer.BuildTargets
             //character.Stats[(int)StatType.AtkFlat] += 815; // Bennett
             //character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
 
-            enemy = new Enemy 
-            { 
+            enemy = new Enemy
+            {
                 Level = 80,
                 AffectedBy = Element.Hydro,
             };
 
             weapons = new List<Weapon>
             {
-                new StaffOfHoma(2) { Under50PercentHp = Under50PercentHp, },
+                new StaffOfHoma(2) { Under50PercentHp = under50Percent, },
             };
         }
+
+        public override ReadOnlyDictionary<Type, object> GetConfigs() => new Dictionary<Type, object>
+        {
+            { typeof(CrimsonWitchOfFlames.Config), new CrimsonWitchOfFlames.Config() { Stacks = 1, } },
+        }.AsReadOnly();
 
         public override bool FilterBuild(Build build, Character character, Enemy enemy)
             => true;

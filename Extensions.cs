@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ShogunOptimizer
@@ -14,5 +15,8 @@ namespace ShogunOptimizer
 
             return array[random.Next(array.Length)];
         }
+
+        public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this Dictionary<TKey, TValue> source) 
+            => new ReadOnlyDictionary<TKey, TValue>(source);
     }
 }

@@ -10,14 +10,15 @@ namespace ShogunOptimizer
             BuildTarget buildTarget = new RaidenTarget();
 
             buildTarget.Initialize(out var character, out var enemy, out var weapons);
+            var configs = buildTarget.GetConfigs();
 
             var optimizer = new BuildOptimizer();
 
             var build = buildTarget.UseGeneratedArtifacts ?
-                optimizer.FindIdealArtifacts(weapons, buildTarget, 200,
+                optimizer.FindIdealArtifacts(weapons, buildTarget, configs, 16,
                     b => buildTarget.Evaluate(b, character, enemy),
                     b => buildTarget.FilterBuild(b, character, enemy))
-                : optimizer.FindBestBuild(weapons, buildTarget.ImportArtifacts(),
+                : optimizer.FindBestBuild(weapons, buildTarget.ImportArtifacts(), configs,
                     b => buildTarget.Evaluate(b, character, enemy),
                     b => buildTarget.FilterBuild(b, character, enemy));
 

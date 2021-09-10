@@ -1,6 +1,7 @@
 ﻿using ShogunOptimizer.ArtifactSources;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace ShogunOptimizer
     public class BuildOptimizer
     {
         public Build FindBestBuild(
-            ICollection<Weapon> weapons, ArtifactSource artifactSource,
+            ICollection<Weapon> weapons, ArtifactSource artifactSource, ReadOnlyDictionary<Type, object> configs,
             Func<Build, double> evaluateBuild, Func<Build, bool> filterBuild = null)
         {
             Console.WriteLine($" - Creating {weapons.Count * artifactSource.Flowers.Count * artifactSource.Plumes.Count * artifactSource.Sands.Count * artifactSource.Goblets.Count * artifactSource.Circlets.Count} builds");
@@ -21,7 +22,7 @@ namespace ShogunOptimizer
                         foreach (var s in artifactSource.Sands)
                             foreach (var g in artifactSource.Goblets)
                                 foreach (var c in artifactSource.Circlets)
-                                    builds.Add(new Build(w, f, p, s, g, c));
+                                    builds.Add(new Build(w, f, p, s, g, c, configs));
 
             Console.WriteLine($" - Evaluating builds");
 
@@ -48,7 +49,7 @@ namespace ShogunOptimizer
             return bestBuild;
         }
 
-        public Build FindIdealArtifacts(ICollection<Weapon> weapons, BuildTarget buildTarget, int generations,
+        public Build FindIdealArtifacts(ICollection<Weapon> weapons, BuildTarget buildTarget, ReadOnlyDictionary<Type, object> configs, int generations,
             Func<Build, double> evaluateBuild, Func<Build, bool> filterBuild = null)
         {
             var random = new Random();
@@ -79,7 +80,7 @@ namespace ShogunOptimizer
                             foreach (var s in artifactSource.Sands)
                                 foreach (var g in artifactSource.Goblets)
                                     foreach (var c in artifactSource.Circlets)
-                                        builds.Add(new Build(w, f, p, s, g, c));
+                                        builds.Add(new Build(w, f, p, s, g, c, configs));
 
                 Console.WriteLine($" - Evaluating builds");
 
