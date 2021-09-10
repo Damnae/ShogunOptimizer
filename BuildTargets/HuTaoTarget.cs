@@ -44,15 +44,11 @@ namespace ShogunOptimizer.BuildTargets
             //character.Stats[(int)StatType.AtkFlat] += 815; // Bennett
             //character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
 
-            enemy = new Enemy
-            {
-                Level = 80,
-                AffectedBy = Element.Hydro,
-            };
+            enemy = new Enemy { Level = 90, AffectedBy = Element.Hydro, };
 
             weapons = new List<Weapon>
             {
-                new StaffOfHoma(2) { Under50PercentHp = under50Percent, },
+                new StaffOfHoma(1) { Under50PercentHp = under50Percent, },
             };
         }
 

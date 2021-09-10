@@ -40,72 +40,7 @@ namespace ShogunOptimizer
             var resMultiplier = 1 - enemy.Resistances[(int)element];
             var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
 
-            return rawMultiplier * resMultiplier * defMultiplier * reactionMultiplier;
-        }
-
-        public double GetReactionMultiplier(ElementalReaction reaction, Build build)
-        {
-            var multiplier = 1.0;
-            var reactionBonus = 0.0;
-
-            switch (reaction)
-            {
-                case ElementalReaction.Melt:
-                    multiplier = 2.0;
-                    reactionBonus += GetStat(StatType.MeltDmgBonus, build);
-                    break;
-
-                case ElementalReaction.Vaporize:
-                    multiplier = 2.0;
-                    reactionBonus += GetStat(StatType.VaporizeDmgBonus, build);
-                    break;
-
-                case ElementalReaction.ReverseMelt:
-                    multiplier = 1.5;
-                    reactionBonus += GetStat(StatType.MeltDmgBonus, build);
-                    break;
-
-                case ElementalReaction.ReverseVaporize:
-                    multiplier = 1.5;
-                    reactionBonus += GetStat(StatType.VaporizeDmgBonus, build);
-                    break;
-
-                default:
-                    return multiplier;
-            }
-
-            var em = GetStat(StatType.ElementalMastery, build);
-            var elementalMasteryBonus = 2.78 * em / (em + 1400);
-            multiplier *= (1 + elementalMasteryBonus + reactionBonus);
-
-            return multiplier;
-        }
-
-        public static ElementalReaction GetReaction(Element source, Enemy enemy)
-        {
-            return source switch
-            {
-                Element.Hydro when enemy.AffectedBy == Element.Pyro => ElementalReaction.Vaporize,
-                Element.Pyro when enemy.AffectedBy == Element.Hydro => ElementalReaction.ReverseVaporize,
-                Element.Pyro when enemy.AffectedBy == Element.Cryo => ElementalReaction.Melt,
-                Element.Cryo when enemy.AffectedBy == Element.Pyro => ElementalReaction.ReverseMelt,
-                Element.Pyro when enemy.AffectedBy == Element.Electro => ElementalReaction.Overloaded,
-                Element.Electro when enemy.AffectedBy == Element.Pyro => ElementalReaction.Overloaded,
-                Element.Hydro when enemy.AffectedBy == Element.Electro => ElementalReaction.ElectroCharged,
-                Element.Electro when enemy.AffectedBy == Element.Hydro => ElementalReaction.ElectroCharged,
-                Element.Cryo when enemy.AffectedBy == Element.Electro => ElementalReaction.Superconduct,
-                Element.Electro when enemy.AffectedBy == Element.Cryo => ElementalReaction.Superconduct,
-                Element.Pyro when enemy.AffectedBy == Element.Dendro => ElementalReaction.Burning,
-
-                Element.Anemo when
-                    enemy.AffectedBy == Element.Cryo ||
-                    enemy.AffectedBy == Element.Electro ||
-                    enemy.AffectedBy == Element.Hydro ||
-                    enemy.AffectedBy == Element.Pyro 
-                    => ElementalReaction.Swirl,
-
-                _ => ElementalReaction.None,
-            };
+            return rawMultiplier * reactionMultiplier * resMultiplier * defMultiplier;
         }
 
         public virtual double GetDmgMultiplier(Build build, DamageType damageType, Element element)
@@ -176,7 +111,63 @@ namespace ShogunOptimizer
             throw new InvalidOperationException($"Unknown hit type {hitType}");
         }
 
-        public double GetStat(StatType statType, Build build) => build.GetCachedStat(statType, this);
+        public double GetReactionMultiplier(ElementalReaction reaction, Build build)
+        {
+            double multiplier, reactionBonus;
+            switch (reaction)
+            {
+                case ElementalReaction.Melt:
+                    multiplier = 2.0;
+                    reactionBonus = GetStat(StatType.MeltDmgBonus, build);
+                    break;
+                case ElementalReaction.Vaporize:
+                    multiplier = 2.0;
+                    reactionBonus = GetStat(StatType.VaporizeDmgBonus, build);
+                    break;
+                case ElementalReaction.ReverseMelt:
+                    multiplier = 1.5;
+                    reactionBonus = GetStat(StatType.MeltDmgBonus, build);
+                    break;
+                case ElementalReaction.ReverseVaporize:
+                    multiplier = 1.5;
+                    reactionBonus = GetStat(StatType.VaporizeDmgBonus, build);
+                    break;
+                default:
+                    return 1.0;
+            }
+
+            var em = GetStat(StatType.ElementalMastery, build);
+            var elementalMasteryBonus = 2.78 * em / (em + 1400);
+
+            return multiplier * (1 + elementalMasteryBonus + reactionBonus);
+        }
+
+        public static ElementalReaction GetReaction(Element source, Enemy enemy) => source switch
+        {
+            Element.Hydro when enemy.AffectedBy == Element.Pyro => ElementalReaction.Vaporize,
+            Element.Pyro when enemy.AffectedBy == Element.Hydro => ElementalReaction.ReverseVaporize,
+            Element.Pyro when enemy.AffectedBy == Element.Cryo => ElementalReaction.Melt,
+            Element.Cryo when enemy.AffectedBy == Element.Pyro => ElementalReaction.ReverseMelt,
+            Element.Pyro when enemy.AffectedBy == Element.Electro => ElementalReaction.Overloaded,
+            Element.Electro when enemy.AffectedBy == Element.Pyro => ElementalReaction.Overloaded,
+            Element.Hydro when enemy.AffectedBy == Element.Electro => ElementalReaction.ElectroCharged,
+            Element.Electro when enemy.AffectedBy == Element.Hydro => ElementalReaction.ElectroCharged,
+            Element.Cryo when enemy.AffectedBy == Element.Electro => ElementalReaction.Superconduct,
+            Element.Electro when enemy.AffectedBy == Element.Cryo => ElementalReaction.Superconduct,
+            Element.Pyro when enemy.AffectedBy == Element.Dendro => ElementalReaction.Burning,
+
+            Element.Anemo when
+                enemy.AffectedBy == Element.Cryo ||
+                enemy.AffectedBy == Element.Electro ||
+                enemy.AffectedBy == Element.Hydro ||
+                enemy.AffectedBy == Element.Pyro
+                => ElementalReaction.Swirl,
+
+            _ => ElementalReaction.None,
+        };
+
+        public double GetStat(StatType statType, Build build) 
+            => build.GetCachedStat(statType, this);
 
         public virtual double CalculateStat(StatType statType, Build build)
         {
