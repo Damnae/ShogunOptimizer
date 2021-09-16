@@ -37,11 +37,7 @@ namespace ShogunOptimizer
             var rawMultiplier = GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
             var reactionMultiplier = GetReactionMultiplier(GetReaction(element, enemy), build);
 
-            var resistance = enemy.Resistances[(int)element] - (GetStat(ElementToResShred(element), build) + GetStat(StatType.ResShred, build));
-            var resMultiplier = resistance < 0 ? 1 - resistance / 2 :
-                resistance < .75 ? 1 - resistance :
-                1 / (4 * resistance + 1);
-
+            double resMultiplier = GetResistanceMultiplier(build, element, enemy);
             var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
 
             return rawMultiplier * reactionMultiplier * resMultiplier * defMultiplier;
@@ -114,6 +110,63 @@ namespace ShogunOptimizer
 
             throw new InvalidOperationException($"Unknown hit type {hitType}");
         }
+
+        public double GetResistanceMultiplier(Build build, Element element, Enemy enemy)
+        {
+            var resistance = enemy.Resistances[(int)element] - (GetStat(ElementToResShred(element), build) + GetStat(StatType.ResShred, build));
+            return resistance < 0 ? 1 - resistance / 2 :
+                resistance < .75 ? 1 - resistance :
+                1 / (4 * resistance + 1);
+        }
+
+        public double GetTransformativeReactionDamage(ElementalReaction reaction, Build build, Enemy enemy)
+        {
+            Element element;
+            double reactionMultiplier, reactionBonus;
+
+            switch (reaction)
+            {
+                case ElementalReaction.Overloaded:
+                    element = Element.Pyro;
+                    reactionMultiplier = 4;
+                    reactionBonus = GetStat(StatType.OverloadedDmgBonus, build);
+                    break;
+                case ElementalReaction.Shattered:
+                    element = Element.Physical;
+                    reactionMultiplier = 3;
+                    reactionBonus = GetStat(StatType.ShatterDmgBonus, build);
+                    break;
+                case ElementalReaction.ElectroCharged:
+                    element = Element.Electro;
+                    reactionMultiplier = 2.4;
+                    reactionBonus = GetStat(StatType.ElectroChargedDmgBonus, build);
+                    break;
+                case ElementalReaction.Swirl:
+                    element = Element.Anemo;
+                    reactionMultiplier = 1.2;
+                    reactionBonus = GetStat(StatType.SwirlDmgBonus, build);
+                    break;
+                case ElementalReaction.Superconduct:
+                    element = Element.Cryo;
+                    reactionMultiplier = 1;
+                    reactionBonus = GetStat(StatType.SuperconductDmgBonus, build);
+                    break;
+                default:
+                    return 0;
+            }
+
+            var em = GetStat(StatType.ElementalMastery, build);
+            var emMultiplier = 1 + (16 * em) / (2000 + em) + reactionBonus;
+
+            var levelMultiplier = GetTransformativeReactionLevelMultiplier();
+            var resMultiplier = GetResistanceMultiplier(build, element, enemy);
+
+            return reactionMultiplier * emMultiplier * levelMultiplier * resMultiplier;
+        }
+
+        public double GetTransformativeReactionLevelMultiplier()
+            => Level < 60 ? 0.0002325 * Level * Level * Level + 0.05547 * Level * Level - 0.2523 * Level + 14.47 :
+                0.00194 * Level * Level * Level - 0.319 * Level * Level + 30.7 * Level - 868;
 
         public double GetReactionMultiplier(ElementalReaction reaction, Build build)
         {

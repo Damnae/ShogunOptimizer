@@ -43,6 +43,7 @@
         ElectroChargedDmgBonus,
         SuperconductDmgBonus,
         SwirlDmgBonus,
+        ShatterDmgBonus,
 
         // Crit Bonuses
         AttackCritRateBonus,
