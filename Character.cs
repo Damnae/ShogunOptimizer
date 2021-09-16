@@ -37,8 +37,8 @@ namespace ShogunOptimizer
             var rawMultiplier = GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
             var reactionMultiplier = GetReactionMultiplier(GetReaction(element, enemy), build);
 
-            double resMultiplier = GetResistanceMultiplier(build, element, enemy);
-            var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
+            var resMultiplier = GetResistanceMultiplier(build, element, enemy);
+            var defMultiplier = GetDefenseMultiplier(build, enemy);
 
             return rawMultiplier * reactionMultiplier * resMultiplier * defMultiplier;
         }
@@ -119,6 +119,9 @@ namespace ShogunOptimizer
                 1 / (4 * resistance + 1);
         }
 
+        public double GetDefenseMultiplier(Build build, Enemy enemy)
+            => (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
+
         public double GetTransformativeReactionDamage(ElementalReaction reaction, Build build, Enemy enemy)
         {
             Element element;
@@ -194,7 +197,7 @@ namespace ShogunOptimizer
             }
 
             var em = GetStat(StatType.ElementalMastery, build);
-            var elementalMasteryBonus = 2.78 * em / (em + 1400);
+            var elementalMasteryBonus = (2.78 * em) / (1400 + em);
 
             return multiplier * (1 + elementalMasteryBonus + reactionBonus);
         }
