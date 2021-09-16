@@ -51,9 +51,9 @@ namespace ShogunOptimizer.BuildTargets
             //character.Stats[(int)StatType.AtkPercent] += .48; // Thrilling
             //character.Stats[(int)StatType.ElectroDmgBonus] += .2; // Sucrose
 
-            enemy = new Enemy { Level = 90, };
+            character.Stats[(int)StatType.ElectroResShred] += .4; // VV
 
-            //enemy.Resistances[(int)Element.Electro] = -.015; // VV
+            enemy = new Enemy { Level = 90, };
 
             weapons = new List<Weapon>
             {

@@ -37,7 +37,11 @@ namespace ShogunOptimizer
             var rawMultiplier = GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
             var reactionMultiplier = GetReactionMultiplier(GetReaction(element, enemy), build);
 
-            var resMultiplier = 1 - enemy.Resistances[(int)element];
+            var resistance = enemy.Resistances[(int)element] - (GetStat(ElementToResShred(element), build) + GetStat(StatType.ResShred, build));
+            var resMultiplier = resistance < 0 ? 1 - resistance / 2 :
+                resistance < .75 ? 1 - resistance :
+                1 / (4 * resistance + 1);
+
             var defMultiplier = (100 + Level) / ((100 + Level) + (100 + enemy.Level) * (1 - Math.Min(.9, GetStat(StatType.DefShred, build))));
 
             return rawMultiplier * reactionMultiplier * resMultiplier * defMultiplier;
@@ -166,7 +170,7 @@ namespace ShogunOptimizer
             _ => ElementalReaction.None,
         };
 
-        public double GetStat(StatType statType, Build build) 
+        public double GetStat(StatType statType, Build build)
             => build.GetCachedStat(statType, this);
 
         public virtual double CalculateStat(StatType statType, Build build)
@@ -224,6 +228,19 @@ namespace ShogunOptimizer
             }
             return 0;
         }
+
+        public static StatType ElementToResShred(Element element) => element switch
+        {
+            Element.Physical => StatType.PhysicalResShred,
+            Element.Pyro => StatType.PyroResShred,
+            Element.Hydro => StatType.HydroResShred,
+            Element.Cryo => StatType.CryoResShred,
+            Element.Electro => StatType.ElectroResShred,
+            Element.Anemo => StatType.AnemoResShred,
+            Element.Geo => StatType.GeoResShred,
+            Element.Dendro => StatType.DendroResShred,
+            _ => throw new NotImplementedException(element.ToString()),
+        };
 
         public static StatType ElementToDmgBonus(Element element) => element switch
         {

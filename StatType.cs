@@ -57,6 +57,15 @@
         BurstCritDamageBonus,
 
         // Enemy Def / Res Reductions
+        PhysicalResShred,
+        PyroResShred,
+        HydroResShred,
+        CryoResShred,
+        ElectroResShred,
+        AnemoResShred,
+        GeoResShred,
+        DendroResShred,
+        ResShred,
         DefShred,
     }
 }
