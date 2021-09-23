@@ -10,7 +10,7 @@ namespace ShogunOptimizer.BuildTargets
     public class RaidenTarget : BuildTarget
     {
         public override bool UpgradeArtifactsToLvl20 => true;
-        public override string EquippedTo => "raidenshogun";
+        public override string EquippedTo => "RaidenShogun";
         public override bool AllowUnequipped => true;
         public override bool UseGeneratedArtifacts => false;
 

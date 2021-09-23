@@ -22,7 +22,7 @@ namespace ShogunOptimizer
                     b => buildTarget.Evaluate(b, character, enemy),
                     b => buildTarget.FilterBuild(b, character, enemy));
 
-            if (build.Value == 0)
+            if (build == null || build.Value == 0)
             {
                 Console.WriteLine();
                 Console.WriteLine($"~~~ No build found ~~~");
