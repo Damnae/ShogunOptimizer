@@ -34,7 +34,7 @@ namespace ShogunOptimizer.BuildTargets
             {
                 Level = 80,
                 AttackLevel = 1,
-                SkillLevel = 11,
+                SkillLevel = 13,
                 BurstLevel = 13,
                 Constellation = 6,
 
@@ -43,17 +43,17 @@ namespace ShogunOptimizer.BuildTargets
                 BaseDef = 705,
             };
 
-            //character.Stats[(int)StatType.BurstDmgBonus] += .003 * 80; // Raiden's E
+            character.Stats[(int)StatType.BurstDmgBonus] += .003 * 80; // Raiden's E
 
             character.Stats[(int)StatType.AtkPercent] += .25; // Pyro resonance
             //character.Stats[(int)StatType.AtkFlat] += 1046; // Bennett
-            //character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
+            character.Stats[(int)StatType.AtkPercent] += .2; // Bennett's 4 pieces NO
             
             enemy = new Enemy { Level = 84, /* AffectedBy = Element.Pyro, */ };
 
             weapons = new List<Weapon>
             {
-                //new SacrificialSword(3),
+                new SacrificialSword(3),
                 new PrimordialJadeCutter(1),
             };
         }
@@ -67,7 +67,17 @@ namespace ShogunOptimizer.BuildTargets
 
         public override double Evaluate(Build build, Character character, Enemy enemy)
         {
-            return character.Calculate(Xingqiu.PropertyBurst, build, HitType.Averaged, enemy);
+            var skillDamage = character.Calculate(Xingqiu.PropertySkillADuringBurst, build, HitType.Averaged, enemy) +
+                character.Calculate(Xingqiu.PropertySkillBDuringBurst, build, HitType.Averaged, enemy);
+
+            if (build.Weapon is SacrificialSword)
+                skillDamage *= 2;
+
+            // Assumes 15 sword waves
+            var burstDamage = character.Calculate(Xingqiu.PropertyBurst, build, HitType.Averaged, enemy)
+                    * (2 + 3 + 5 + 2 + 3 + 5 + 2 + 3 + 5 + 2 + 3 + 5 + 2 + 3 + 5);
+
+            return skillDamage + burstDamage;
         }
 
         public override void DisplayResults(Build build, Character character, Enemy enemy)
