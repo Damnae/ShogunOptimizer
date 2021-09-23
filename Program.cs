@@ -51,9 +51,7 @@ namespace ShogunOptimizer
             foreach (var artifact in build.Artifacts)
             {
                 Console.WriteLine();
-                Console.WriteLine($"~~~ {artifact.Set} ~~~");
-                foreach ((var artifactStatType, var artifactStatValue) in artifact.Stats)
-                    Console.WriteLine($"{artifactStatType}: {artifactStatValue}");
+                Console.WriteLine(artifact);
             };
         }
     }
