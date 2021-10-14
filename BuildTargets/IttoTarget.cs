@@ -48,8 +48,9 @@ namespace ShogunOptimizer.BuildTargets
 
             weapons = new List<Weapon>
             {
-                new SerpentSpine(5),
-                new RedhornStonethresher(1),
+                new SerpentSpine(1),
+                //new Whiteblind(5),
+                //new RedhornStonethresher(1),
             };
         }
 
@@ -76,7 +77,7 @@ namespace ShogunOptimizer.BuildTargets
             Console.WriteLine($"Attack 1: {character.Calculate(Itto.PropertyAttack1, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyAttack1, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyAttack1, build, HitType.Averaged, enemy):#})");
             Console.WriteLine($"Attack 2: {character.Calculate(Itto.PropertyAttack2, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyAttack2, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyAttack2, build, HitType.Averaged, enemy):#})");
             Console.WriteLine($"Attack 3: {character.Calculate(Itto.PropertyAttack3, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyAttack3, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyAttack3, build, HitType.Averaged, enemy):#})");
-            Console.WriteLine($"Attack 3: {character.Calculate(Itto.PropertyAttack4, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyAttack4, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyAttack4, build, HitType.Averaged, enemy):#})");
+            Console.WriteLine($"Attack 4: {character.Calculate(Itto.PropertyAttack4, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyAttack4, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyAttack4, build, HitType.Averaged, enemy):#})");
             Console.WriteLine();
             Console.WriteLine($"Charged Combo: {character.Calculate(Itto.PropertyChargedCombo, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyChargedCombo, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyChargedCombo, build, HitType.Averaged, enemy):#})");
             Console.WriteLine($"Charged Final: {character.Calculate(Itto.PropertyChargedFinal, build, HitType.Normal, enemy):#} - {character.Calculate(Itto.PropertyChargedFinal, build, HitType.Critical, enemy):#} ({character.Calculate(Itto.PropertyChargedFinal, build, HitType.Averaged, enemy):#})");

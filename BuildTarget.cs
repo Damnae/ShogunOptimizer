@@ -39,13 +39,14 @@ namespace ShogunOptimizer
             return importer;
         }
 
-        public virtual ArtifactSource GenerateArtifacts()
+        public virtual ArtifactSource GenerateArtifacts(double rollFactor)
         {
             var generator = new ArtifactGenerator
             {
                 Sets = UsefulSets,
                 MainStats = UsefulMainStats,
                 SubStats = UsefulSubStats,
+                RollFactor = rollFactor,
             };
             generator.Generate();
             return generator;

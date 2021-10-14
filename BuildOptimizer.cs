@@ -49,7 +49,7 @@ namespace ShogunOptimizer
             return bestBuild;
         }
 
-        public Build FindIdealArtifacts(ICollection<Weapon> weapons, BuildTarget buildTarget, ReadOnlyDictionary<Type, object> configs, int generations,
+        public Build FindIdealArtifacts(ICollection<Weapon> weapons, BuildTarget buildTarget, ReadOnlyDictionary<Type, object> configs, int generations, double rollFactor,
             Func<Build, double> evaluateBuild, Func<Build, bool> filterBuild = null)
         {
             var random = new Random();
@@ -58,16 +58,16 @@ namespace ShogunOptimizer
 
             for (var i = 0; i < generations; i++)
             {
-                var artifactSource = buildTarget.GenerateArtifacts();
+                var artifactSource = buildTarget.GenerateArtifacts(rollFactor);
 
                 var add = true;
                 foreach (var b in bestBuilds)
                 {
-                    addAndMutate(b.Artifacts[0], artifactSource.Flowers, buildTarget, random, add);
-                    addAndMutate(b.Artifacts[1], artifactSource.Plumes, buildTarget, random, add);
-                    addAndMutate(b.Artifacts[2], artifactSource.Sands, buildTarget, random, add);
-                    addAndMutate(b.Artifacts[3], artifactSource.Goblets, buildTarget, random, add);
-                    addAndMutate(b.Artifacts[4], artifactSource.Circlets, buildTarget, random, add);
+                    addAndMutate(b.Artifacts[0], artifactSource.Flowers, buildTarget, rollFactor, random, add);
+                    addAndMutate(b.Artifacts[1], artifactSource.Plumes, buildTarget, rollFactor, random, add);
+                    addAndMutate(b.Artifacts[2], artifactSource.Sands, buildTarget, rollFactor, random, add);
+                    addAndMutate(b.Artifacts[3], artifactSource.Goblets, buildTarget, rollFactor, random, add);
+                    addAndMutate(b.Artifacts[4], artifactSource.Circlets, buildTarget, rollFactor, random, add);
                     add = false;
                 }
 
@@ -110,7 +110,7 @@ namespace ShogunOptimizer
             return bestBuilds.First();
         }
 
-        private static void addAndMutate(Artifact artifact, List<Artifact> artifacts, BuildTarget buildTarget, Random random, bool add)
+        private static void addAndMutate(Artifact artifact, List<Artifact> artifacts, BuildTarget buildTarget, double rollFactor, Random random, bool add)
         {
             if (add)
                 addUnique(artifact, artifacts);
@@ -148,7 +148,7 @@ namespace ShogunOptimizer
                         addUnique(new Artifact
                         {
                             Set = artifact.Set,
-                            Stats = ArtifactGenerator.GenerateStats(artifact.Stats[0].Item1, substats, random).ToArray(),
+                            Stats = ArtifactGenerator.GenerateStats(artifact.Stats[0].Item1, substats, rollFactor, random).ToArray(),
                         }, artifacts);
                     }
                     break;

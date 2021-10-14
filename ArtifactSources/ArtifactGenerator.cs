@@ -30,6 +30,8 @@ namespace ShogunOptimizer.ArtifactSources
             }
         }
 
+        public double RollFactor = 1;
+
         public void Generate()
         {
 #if DEBUG
@@ -54,7 +56,7 @@ namespace ShogunOptimizer.ArtifactSources
             var random = new Random();
             foreach (var mainStat in mainStats)
             {
-                List<Tuple<StatType, double>> stats = GenerateStats(mainStat, SubStats, random);
+                List<Tuple<StatType, double>> stats = GenerateStats(mainStat, SubStats, RollFactor, random);
 
                 // Create for every set
                 var statsArray = stats.ToArray();
@@ -67,7 +69,7 @@ namespace ShogunOptimizer.ArtifactSources
             }
         }
 
-        public static List<Tuple<StatType, double>> GenerateStats(StatType mainStat, StatType[] subStats, Random random)
+        public static List<Tuple<StatType, double>> GenerateStats(StatType mainStat, StatType[] subStats, double rollFactor, Random random)
         {
             var stats = new List<Tuple<StatType, double>>(5)
             {
@@ -82,7 +84,7 @@ namespace ShogunOptimizer.ArtifactSources
                     break;
 
                 var substat = availableSubstat[random.Next(availableSubstat.Length)];
-                stats.Add(new(substat, GetSubStatRolls(substat).Last()));
+                stats.Add(new(substat, GetMaxSubStatRoll(substat) * rollFactor));
             }
 
             // Increase Substats
@@ -91,7 +93,7 @@ namespace ShogunOptimizer.ArtifactSources
                 var slot = random.Next(1, stats.Count);
 
                 var substat = stats[slot];
-                stats[slot] = new(substat.Item1, substat.Item2 + GetSubStatRolls(substat.Item1).Last());
+                stats[slot] = new(substat.Item1, substat.Item2 + GetMaxSubStatRoll(substat.Item1) * rollFactor);
             }
 
             return stats;
@@ -133,6 +135,12 @@ namespace ShogunOptimizer.ArtifactSources
         private static readonly double[] critRateRolls = { .027, .031, .035, .039, };
         private static readonly double[] critDamageRolls = { .054, .062, .07, .078, };
         private static readonly double[] energyRegenRolls = { .045, .052, .058, .065, };
+
+        public static double GetMaxSubStatRoll(StatType stat)
+        {
+            var rolls = GetSubStatRolls(stat);
+            return rolls[rolls.Length - 1];
+        }
 
         public static double[] GetSubStatRolls(StatType stat) => stat switch
         {
