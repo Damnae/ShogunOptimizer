@@ -32,6 +32,36 @@ namespace ShogunOptimizer
         public virtual double GetMaxHp(Build build) => BaseHp * (1 + GetStat(StatType.HpPercent, build)) + GetStat(StatType.HpFlat, build);
         public virtual double GetDef(Build build) => BaseDef * (1 + GetStat(StatType.DefPercent, build)) + GetStat(StatType.DefFlat, build);
 
+        public virtual double CalculateDamage(Build build, double baseDamage, DamageType damageType, Element element, HitType hitType, Enemy enemy)
+            => (baseDamage + GetExtraDamage(build, damageType, element)) * GetMultiplier(build, damageType, element, hitType, enemy);
+
+        public virtual double GetExtraDamage(Build build, DamageType damageType, Element element)
+        {
+            var extraDamage = GetStat(StatType.ExtraDmg, build);
+
+            switch (damageType)
+            {
+                case DamageType.Normal:
+                    extraDamage += GetStat(StatType.AttackExtraDmg, build);
+                    break;
+                case DamageType.Charged:
+                    extraDamage += GetStat(StatType.ChargedExtraDmg, build);
+                    break;
+                case DamageType.Plunge:
+                    extraDamage += GetStat(StatType.PlungeExtraDmg, build);
+                    break;
+                case DamageType.Skill:
+                    extraDamage += GetStat(StatType.SkillExtraDmg, build);
+                    break;
+                case DamageType.Burst:
+                    extraDamage += GetStat(StatType.BurstExtraDmg, build);
+                    break;
+            }
+            extraDamage += GetStat(ElementToExtraDmg(element), build);
+
+            return extraDamage;
+        }
+
         public virtual double GetMultiplier(Build build, DamageType damageType, Element element, HitType hitType, Enemy enemy)
         {
             var rawMultiplier = GetDmgMultiplier(build, damageType, element) * GetCritMultiplier(build, damageType, hitType);
@@ -308,6 +338,19 @@ namespace ShogunOptimizer
             Element.Anemo => StatType.AnemoDmgBonus,
             Element.Geo => StatType.GeoDmgBonus,
             Element.Dendro => StatType.DendroDmgBonus,
+            _ => throw new NotImplementedException(element.ToString()),
+        };
+
+        public static StatType ElementToExtraDmg(Element element) => element switch
+        {
+            Element.Physical => StatType.PhysicalExtraDmg,
+            Element.Pyro => StatType.PyroExtraDmg,
+            Element.Hydro => StatType.HydroExtraDmg,
+            Element.Cryo => StatType.CryoExtraDmg,
+            Element.Electro => StatType.ElectroExtraDmg,
+            Element.Anemo => StatType.AnemoExtraDmg,
+            Element.Geo => StatType.GeoExtraDmg,
+            Element.Dendro => StatType.DendroExtraDmg,
             _ => throw new NotImplementedException(element.ToString()),
         };
     }

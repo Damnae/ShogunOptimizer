@@ -35,6 +35,23 @@
         GeoDmgBonus,
         DendroDmgBonus,
 
+        // Extra Damage
+        ExtraDmg,
+        AttackExtraDmg,
+        ChargedExtraDmg,
+        PlungeExtraDmg,
+        SkillExtraDmg,
+        BurstExtraDmg,
+
+        PhysicalExtraDmg,
+        PyroExtraDmg,
+        HydroExtraDmg,
+        CryoExtraDmg,
+        ElectroExtraDmg,
+        AnemoExtraDmg,
+        GeoExtraDmg,
+        DendroExtraDmg,
+
         // Reaction Bonuses
         OverloadedDmgBonus,
         BurningDmgBonus,

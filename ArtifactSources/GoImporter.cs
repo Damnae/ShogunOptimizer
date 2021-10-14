@@ -49,6 +49,7 @@ namespace ShogunOptimizer.ArtifactSources
                     "WanderersTroupe" => new WanderersTroupe(),
                     "TenacityOfTheMillelith" => new TenacityOfTheMillelith(),
                     "CrimsonWitchOfFlames" => new CrimsonWitchOfFlames(),
+                    "HuskOfOpulentDreams" => new HuskOfOpulentDreams(),
                     _ => new MissingSet(setKey),
                 };
 

@@ -7,7 +7,7 @@ namespace ShogunOptimizer
     {
         static void Main(string[] args)
         {
-            BuildTarget buildTarget = new RaidenTarget();
+            BuildTarget buildTarget = new IttoTarget();
 
             buildTarget.Initialize(out var character, out var enemy, out var weapons);
             var configs = buildTarget.GetConfigs();
