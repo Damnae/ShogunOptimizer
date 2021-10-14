@@ -17,8 +17,8 @@ namespace ShogunOptimizer.Weapons
 
         public override double GetStat(StatType statType, Build build, Character character)
         {
-            //if (statType == StatType.AttackDmgBonus)
-            //    return (.005 + .005 * Refine) * character.GetMaxHp(build);
+            if (statType == StatType.AttackExtraDmg)
+                return (.005 + .005 * Refine) * character.GetMaxHp(build);
 
             return 0;
         }
