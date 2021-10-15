@@ -48,8 +48,9 @@ namespace ShogunOptimizer.BuildTargets
 
             weapons = new List<Weapon>
             {
-                new SerpentSpine(1),
                 //new Whiteblind(5),
+                new SerpentSpine(1),
+                //new WolfsGravestone(1),
                 //new RedhornStonethresher(1),
             };
         }
