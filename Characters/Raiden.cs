@@ -36,19 +36,19 @@ namespace ShogunOptimizer.Characters
             var burstScaling = GetTalentPercentageScaling(BurstLevel);
             switch (property)
             {
-                case PropertySkillInitial: return (1.172 * GetTalentPercentageScaling(SkillLevel)) * GetAtk(build) * GetMultiplier(build, DamageType.Skill, Element.Electro, hitType, enemy);
-                case PropertySkillTick: return (0.42 * GetTalentPercentageScaling(SkillLevel)) * GetAtk(build) * GetMultiplier(build, DamageType.Skill, Element.Electro, hitType, enemy);
+                case PropertySkillInitial: return CalculateDamage(build, (1.172 * GetTalentPercentageScaling(SkillLevel)) * GetAtk(build), DamageType.Skill, Element.Electro, hitType, enemy);
+                case PropertySkillTick: return CalculateDamage(build, (0.42 * GetTalentPercentageScaling(SkillLevel)) * GetAtk(build), DamageType.Skill, Element.Electro, hitType, enemy);
 
-                case PropertyBurstInitial: return (4.008 * burstScaling + 0.0389 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstInitial: return CalculateDamage(build, (4.008 * burstScaling + 0.0389 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
                 
-                case PropertyBurstAttack1: return (.4474 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstAttack2: return (.4396 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstAttack3: return (.5382 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstAttack4A: return (.3089 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstAttack4B: return (.3098 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstAttack5: return (.7394 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstChargedA: return (.616 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
-                case PropertyBurstChargedB: return (.7436 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstAttack1: return CalculateDamage(build, (.4474 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstAttack2: return CalculateDamage(build, (.4396 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstAttack3: return CalculateDamage(build, (.5382 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstAttack4A: return CalculateDamage(build, (.3089 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstAttack4B: return CalculateDamage(build, (.3098 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstAttack5: return CalculateDamage(build, (.7394 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstChargedA: return CalculateDamage(build, (.616 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
+                case PropertyBurstChargedB: return CalculateDamage(build, (.7436 * burstScaling + .0073 * burstScaling * Resolve) * GetAtk(build), DamageType.Burst, Element.Electro, hitType, enemy);
 
                 case PropertyBurst2N4C1N2C:
                 {

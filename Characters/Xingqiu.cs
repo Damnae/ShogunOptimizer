@@ -24,9 +24,9 @@
             switch (property)
             {
                 case PropertySkillA:
-                    return 1.68 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build) * GetMultiplier(build, DamageType.Skill, Element.Hydro, hitType, enemy);
+                    return CalculateDamage(build, 1.68 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build), DamageType.Skill, Element.Hydro, hitType, enemy);
                 case PropertySkillB:
-                    return 1.912 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build) * GetMultiplier(build, DamageType.Skill, Element.Hydro, hitType, enemy);
+                    return CalculateDamage(build, 1.912 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build), DamageType.Skill, Element.Hydro, hitType, enemy);
                 case PropertySkillADuringBurst:
                     return 1.5 * Calculate(PropertySkillA, build, hitType, enemy);
                 case PropertySkillBDuringBurst:
@@ -34,7 +34,7 @@
                 case PropertySkillHeal:
                     return .06 * GetMaxHp(build) * (1 + GetStat(StatType.HealBonus, build));
                 case PropertyBurst:
-                    return .5427 * GetTalentPercentageScaling(BurstLevel) * GetAtk(build) * GetMultiplier(build, DamageType.Burst, Element.Hydro, hitType, enemy);
+                    return CalculateDamage(build, .5427 * GetTalentPercentageScaling(BurstLevel) * GetAtk(build), DamageType.Burst, Element.Hydro, hitType, enemy);
             }
             return base.Calculate(property, build, hitType, enemy);
         }

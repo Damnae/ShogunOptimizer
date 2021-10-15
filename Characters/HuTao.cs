@@ -24,7 +24,7 @@ namespace ShogunOptimizer.Characters
             switch (property)
             {
                 case PropertyCharged:
-                    return 1.3596 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build) * GetMultiplier(build, DamageType.Charged, ElementalSkillActive ? Element.Pyro : Element.Physical, hitType, enemy);
+                    return CalculateDamage(build, 1.3596 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build), DamageType.Charged, ElementalSkillActive ? Element.Pyro : Element.Physical, hitType, enemy);
             }
             return base.Calculate(property, build, hitType, enemy);
         }
