@@ -29,14 +29,14 @@ namespace ShogunOptimizer.Characters
         {
             switch (property)
             {
-                case PropertyAttack1: return CalculateDamage(build, .64 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
-                case PropertyAttack2: return CalculateDamage(build, .611 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
-                case PropertyAttack3: return CalculateDamage(build, .735 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
-                case PropertyAttack4: return CalculateDamage(build, .931 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyAttack1: return CalculateDamage(build, .7923 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyAttack2: return CalculateDamage(build, .7637 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyAttack3: return CalculateDamage(build, .9164 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyAttack4: return CalculateDamage(build, 1.1722 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Normal, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
 
-                case PropertyChargedCombo: return CalculateDamage(build, .912 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build) + .35 * GetDef(build), DamageType.Charged, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
-                case PropertyChargedFinal: return CalculateDamage(build, 1.909 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build) + .35 * GetDef(build), DamageType.Charged, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
-                case PropertyChargedSingle: return CalculateDamage(build, .905 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Charged, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyChargedCombo: return CalculateDamage(build, .9126 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build) + .35 * GetDef(build), DamageType.Charged, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyChargedFinal: return CalculateDamage(build, 1.9092 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build) + .35 * GetDef(build), DamageType.Charged, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
+                case PropertyChargedSingle: return CalculateDamage(build, .9047 * GetTalentPercentageScaling(AttackLevel) * GetAtk(build), DamageType.Charged, BurstActive ? Element.Geo : Element.Physical, hitType, enemy);
 
                 case PropertySkill: return CalculateDamage(build, 3.072 * GetTalentPercentageScaling(SkillLevel) * GetAtk(build), DamageType.Skill, Element.Geo, hitType, enemy);
 

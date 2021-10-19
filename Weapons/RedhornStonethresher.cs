@@ -6,10 +6,10 @@ namespace ShogunOptimizer.Weapons
     {
         public RedhornStonethresher(int refine = 1) : base(refine)
         {
-            BaseAtk = 608;
+            BaseAtk = 542;
             Stats = new Tuple<StatType, double>[]
             {
-                new(StatType.CritDamage, .662),
+                new(StatType.CritDamage, .882),
                 new(StatType.DefPercent, 0.15 + .05 * Refine),
             };
             Type = WeaponType.Claymore;
