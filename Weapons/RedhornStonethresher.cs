@@ -10,7 +10,7 @@ namespace ShogunOptimizer.Weapons
             Stats = new Tuple<StatType, double>[]
             {
                 new(StatType.CritDamage, .882),
-                new(StatType.DefPercent, 0.15 + .05 * Refine),
+                new(StatType.DefPercent, 0.21 + .07 * Refine),
             };
             Type = WeaponType.Claymore;
         }
@@ -18,7 +18,7 @@ namespace ShogunOptimizer.Weapons
         public override double GetStat(StatType statType, Build build, Character character)
         {
             if (statType == StatType.AttackExtraDmg || statType == StatType.ChargedExtraDmg)
-                return (.21 + .07 * Refine) * character.GetDef(build);
+                return (.30 + .10 * Refine) * character.GetDef(build);
 
             return 0;
         }
